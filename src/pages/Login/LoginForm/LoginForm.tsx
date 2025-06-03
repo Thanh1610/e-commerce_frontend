@@ -50,6 +50,7 @@ function LoginForm() {
                     <Input
                         id="password"
                         type="password"
+                        placeholder="Nhập mật khẩu"
                         {...register('password', {
                             required: 'Mật khẩu là bắt buộc',
                             minLength: {

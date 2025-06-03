@@ -22,10 +22,12 @@ function LoginPage() {
                 <CardContent>
                     <LoginForm />
                 </CardContent>
-                <Button variant="outline">
-                    <ArrowLeft size={20} />
-                    Quay lại
-                </Button>
+                <Link to={config.routes.home}>
+                    <Button variant="outline" className="flex w-full items-center justify-center">
+                        <ArrowLeft size={20} />
+                        Quay lại
+                    </Button>
+                </Link>
             </Card>
         </div>
     );

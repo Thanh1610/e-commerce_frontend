@@ -1,6 +1,5 @@
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-// import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
 import RegisterForm from './RegisterForm/RegisterForm';
 import { Link } from 'react-router';
@@ -23,10 +22,12 @@ function RegisterPage() {
                 <CardContent>
                     <RegisterForm />
                 </CardContent>
-                <Button variant="outline">
-                    <ArrowLeft size={20} />
-                    Quay lại
-                </Button>
+                <Link to={config.routes.home}>
+                    <Button variant="outline" className="flex w-full items-center justify-center">
+                        <ArrowLeft size={20} />
+                        Quay lại
+                    </Button>
+                </Link>
             </Card>
         </div>
     );
