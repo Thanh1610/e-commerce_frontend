@@ -4,10 +4,14 @@ import OrderPage from '@/pages/Order/OrderPage';
 
 import config from '@/config';
 import NotFoundPage from '@/pages/NotFound/ProductsPage';
+import LoginPage from '@/pages/Login/LoginPage';
+import RegisterPage from '@/pages/Register/RegisterPage';
 
 export const publicRoutes = [
     { path: config.routes.home, component: HomePage },
     { path: config.routes.products, component: ProductsPage },
     { path: config.routes.order, component: OrderPage },
+    { path: config.routes.login, component: LoginPage, layout: LoginPage },
+    { path: config.routes.register, component: RegisterPage, layout: RegisterPage },
     { path: config.routes.notfound, component: NotFoundPage, layout: NotFoundPage },
 ];
