@@ -7,7 +7,7 @@ type Props = {
 
 function MainLayout({ children }: Props) {
     return (
-        <div>
+        <div className="bg-[#f2f4f7]">
             <Header />
             {children}
         </div>
