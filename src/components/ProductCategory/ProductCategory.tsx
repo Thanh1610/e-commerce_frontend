@@ -15,7 +15,7 @@ const keywords: Keyword[] = [
 ];
 function ProductCategory() {
     return (
-        <div className="container mx-auto my-0 flex w-full items-center justify-center">
+        <div className="container mx-auto my-0 flex w-full max-w-screen-lg items-center justify-center">
             {keywords.map((key) => (
                 <Button key={key.label} variant="link" className="flex items-center justify-center">
                     {key.icon}

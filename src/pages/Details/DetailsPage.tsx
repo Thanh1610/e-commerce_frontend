@@ -4,7 +4,7 @@ import DetailsImgCarousel from '@/components/DetailsImgCarousel/DetailsImgCarous
 
 function DetailsPage() {
     return (
-        <div className="container mx-auto my-0 pt-2.5">
+        <div className="container mx-auto my-0 max-w-screen-lg pt-2.5">
             <ProductBreadcrumb />
             <div className="flex w-full items-center justify-start gap-2.5">
                 <h1 className="text-xl font-bold">Asus Vivobook 15 X1504ZA i3 1215U (NJ102W)</h1>

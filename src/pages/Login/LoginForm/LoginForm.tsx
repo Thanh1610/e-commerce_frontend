@@ -4,6 +4,9 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
+import { loginApi } from '@/utils/userApi';
+import { useState } from 'react';
+import { Loader } from 'lucide-react';
 
 type LoginFormData = {
     email: string;
@@ -11,14 +14,26 @@ type LoginFormData = {
 };
 
 function LoginForm() {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginFormData>();
 
-    const onSubmit = (data: LoginFormData) => {
-        console.log('Submitted:', data);
+    const onSubmit = async (data: LoginFormData) => {
+        setLoading(true);
+        try {
+            const { email, password } = data;
+
+            const res = await loginApi({ email, password });
+            console.log('>>>>>res: ', res);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,9 +78,16 @@ function LoginForm() {
                 </div>
             </div>
             <CardFooter className="mt-3 flex-col">
-                <Button type="submit" className="w-full">
-                    Login
-                </Button>
+                {!loading ? (
+                    <Button type="submit" className="w-full">
+                        Đăng nhập
+                    </Button>
+                ) : (
+                    <Button size="sm" disabled>
+                        <Loader className="animate-spin" />
+                        Please wait
+                    </Button>
+                )}
             </CardFooter>
         </form>
     );

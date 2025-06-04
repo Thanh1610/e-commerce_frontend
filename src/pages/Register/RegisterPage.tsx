@@ -12,7 +12,7 @@ function RegisterPage() {
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Đăng ký tài khoản của bạn</CardTitle>
-                    <CardDescription>Nhập email của bạn bên dưới để đăng ký </CardDescription>
+                    <CardDescription>Nhập thông tin của bạn bên dưới để đăng ký </CardDescription>
                     <CardAction>
                         <Link to={config.routes.login}>
                             <Button variant="link">Đăng nhập</Button>

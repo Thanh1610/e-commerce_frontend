@@ -9,7 +9,7 @@ import config from '@/config';
 function Header() {
     return (
         <header className="flex flex-col gap-4 border-b border-neutral-200 bg-[#eff6ff] py-2.5 shadow">
-            <div className="container mx-auto my-0 grid grid-cols-12 items-center">
+            <div className="container mx-auto my-0 grid max-w-screen-lg grid-cols-12 items-center">
                 {/* logo */}
                 <Link to={config.routes.home} className="col-span-3">
                     E-commerce

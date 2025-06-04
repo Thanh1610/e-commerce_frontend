@@ -1,12 +1,12 @@
 import Card from '@/components/Card/Card';
 
 type Props = {
-    colSpan: number;
+    colSpan: string;
 };
 
 function CardList({ colSpan }: Props) {
     return (
-        <div className="mt-5 grid grid-cols-12 gap-2.5 px-5">
+        <div className="mt-5 grid grid-cols-6 gap-2.5 px-5">
             <div className={`col-span-${colSpan}`}>
                 <Card />
             </div>
