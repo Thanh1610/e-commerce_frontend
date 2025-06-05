@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { publicRoutes } from './routes';
 import MainLayout from './layouts/MainLayout/MainLayout';
 import { Fragment } from 'react/jsx-runtime';
+import { ToastContainer } from 'react-toastify';
 
 export function App() {
     return (
@@ -24,6 +25,16 @@ export function App() {
                         );
                     })}
                 </Routes>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    pauseOnHover
+                    draggable
+                    theme="light"
+                />
             </div>
         </Router>
     );

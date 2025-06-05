@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Loader } from 'lucide-react';
 import { registerApi } from '@/utils/userApi';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
+import config from '@/config';
 type LoginFormData = {
     email: string;
     password: string;
@@ -16,6 +19,7 @@ type LoginFormData = {
 
 function RegisterForm() {
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -32,7 +36,12 @@ function RegisterForm() {
             const { email, password, confirmPassword, name, phone } = data;
 
             const res = await registerApi({ email, password, confirmPassword, name, phone });
-            console.log('>>>>>res: ', res);
+            if (res.EC === 0) {
+                toast.success('Đăng kí thành công!');
+                navigate(config.routes.login);
+            } else {
+                toast.error('Email đã tồn tại!');
+            }
         } catch (error) {
             console.log(error);
         } finally {
