@@ -3,6 +3,7 @@ import { User, ShoppingCart } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Link } from 'react-router';
 import config from '@/config';
+import UserDropdown from '@/components/Actions/UserDropdown/UserDropdown';
 
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
@@ -11,20 +12,6 @@ function Actions() {
 
     return (
         <div className="col-span-3 flex items-center justify-end gap-2">
-            {user?.name ? (
-                <Link to={config.routes.home}>
-                    <Button variant="outline">
-                        <User /> {user?.name}
-                    </Button>
-                </Link>
-            ) : (
-                <Link to={config.routes.login}>
-                    <Button variant="outline">
-                        <User /> Đăng nhập
-                    </Button>
-                </Link>
-            )}
-
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button variant="outline">
@@ -35,6 +22,16 @@ function Actions() {
                     <p>Giỏ hàng</p>
                 </TooltipContent>
             </Tooltip>
+
+            {user?.name ? (
+                <UserDropdown user={user} />
+            ) : (
+                <Link to={config.routes.login}>
+                    <Button variant="outline">
+                        <User /> Đăng nhập
+                    </Button>
+                </Link>
+            )}
         </div>
     );
 }

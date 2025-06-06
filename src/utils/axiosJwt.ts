@@ -15,8 +15,6 @@ axiosJwt.interceptors.request.use(
             const data = await refreshToken();
 
             config.headers['authorization'] = `Bearer ${data?.data?.token}`;
-            console.log('🚀 ~ decoded.exp:', decoded.exp);
-            console.log('🚀 ~ Date.now() / 1000:', Date.now() / 1000);
         }
         return config;
     },

@@ -66,4 +66,10 @@ const refreshToken = () => {
     return axiosCustom.post(URL_API);
 };
 
-export { loginApi, registerApi, getDetailUser, refreshToken };
+const logoutUser = () => {
+    const URL_API = '/user/logout';
+
+    return axiosCustom.post(URL_API);
+};
+
+export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser };
