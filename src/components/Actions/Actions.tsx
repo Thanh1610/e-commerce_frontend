@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 function Actions() {
     const user = useSelector((state: RootState) => state.user);
-    console.log(user);
+
     return (
         <div className="col-span-3 flex items-center justify-end gap-2">
             {user?.name ? (

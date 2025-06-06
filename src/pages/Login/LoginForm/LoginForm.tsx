@@ -36,7 +36,7 @@ function LoginForm() {
 
     const handleGetDetailUser = async (id: string, token: string) => {
         const res = await getDetailUser({ id, token });
-        dispatch(setUser({ ...res?.data, access_token: token }));
+        dispatch(setUser({ ...res?.data?.data, access_token: token }));
     };
 
     const onSubmit = async (data: LoginFormData) => {
@@ -48,7 +48,7 @@ function LoginForm() {
 
             if (res.EC === 0) {
                 toast.success('Đăng nhập thành công!');
-                localStorage.setItem('access_token', res?.access_token);
+                localStorage.setItem('access_token', JSON.stringify(res?.access_token));
                 navigate(config.routes.home);
 
                 if (res?.access_token) {

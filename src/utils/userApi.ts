@@ -1,5 +1,5 @@
-import axios from '@/utils/axios.customzie';
-
+import axiosCustom from '@/utils/axios.customzie';
+import axiosJwt from '@/utils/axiosJwt';
 type User = {
     id: string;
     name: string;
@@ -18,7 +18,7 @@ type LoginResponse = {
 };
 const loginApi = (data: Login): Promise<LoginResponse> => {
     const URL_API = '/user/login';
-    return axios.post(URL_API, data);
+    return axiosCustom.post(URL_API, data);
 };
 
 type Register = {
@@ -34,7 +34,7 @@ type RegisterResponse = {
 };
 const registerApi = (data: Register): Promise<RegisterResponse> => {
     const URL_API = '/user/register';
-    return axios.post(URL_API, data);
+    return axiosCustom.post(URL_API, data);
 };
 
 type GetDetailUser = {
@@ -43,18 +43,27 @@ type GetDetailUser = {
 };
 
 type GetDetailUserResponse = {
-    data: User;
+    data: {
+        status: string;
+        message: string;
+        data: User;
+    };
 };
 
 const getDetailUser = (data: GetDetailUser): Promise<GetDetailUserResponse> => {
     const URL_API = `/user/detail-user/${data?.id}`;
-    console.log('check data.id: ', data?.id);
 
-    return axios.get(URL_API, {
+    return axiosJwt.get(URL_API, {
         headers: {
             Authorization: `Bearer ${data?.token}`,
         },
     });
 };
 
-export { loginApi, registerApi, getDetailUser };
+const refreshToken = () => {
+    const URL_API = '/user/refresh-token';
+
+    return axiosCustom.post(URL_API);
+};
+
+export { loginApi, registerApi, getDetailUser, refreshToken };
