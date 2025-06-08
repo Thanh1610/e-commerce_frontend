@@ -5,6 +5,7 @@ const routes = {
     login: '/login',
     register: '/register',
     details: '/details',
+    profile: '/profile',
     notfound: '*',
 };
 

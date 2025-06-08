@@ -1,10 +1,6 @@
 import axiosCustom from '@/utils/axios.customzie';
 import axiosJwt from '@/utils/axiosJwt';
-type User = {
-    id: string;
-    name: string;
-    email: string;
-};
+import type { UserState } from '@/redux/slices/userSlice';
 
 type Login = {
     email: string;
@@ -46,7 +42,7 @@ type GetDetailUserResponse = {
     data: {
         status: string;
         message: string;
-        data: User;
+        data: UserState;
     };
 };
 
@@ -72,4 +68,28 @@ const logoutUser = () => {
     return axiosCustom.post(URL_API);
 };
 
-export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser };
+type UpdatelUser = {
+    id: string;
+    token: string;
+    adress: string;
+    phone: string;
+    name: string;
+    email: string;
+};
+
+type UpdateUserResponse = {
+    status: string;
+    message: string;
+    data: UserState;
+};
+const updateUser = (data: UpdatelUser): Promise<UpdateUserResponse> => {
+    const URL_API = `/user/update-user/${data?.id}`;
+    const { token, ...updateData } = data;
+    return axiosCustom.put(URL_API, updateData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser };

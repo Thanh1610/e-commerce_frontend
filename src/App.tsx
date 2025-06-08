@@ -16,7 +16,12 @@ export function App() {
         async (id: string, token: string) => {
             const res = await getDetailUser({ id, token });
 
-            dispatch(setUser({ ...res?.data?.data, access_token: token }));
+            const payload = {
+                ...res?.data?.data,
+                access_token: token,
+            };
+
+            dispatch(setUser(payload));
         },
         [dispatch],
     );
@@ -54,7 +59,7 @@ export function App() {
                     })}
                 </Routes>
                 <ToastContainer
-                    position="top-right"
+                    position="bottom-left"
                     autoClose={3000}
                     hideProgressBar={false}
                     newestOnTop={false}

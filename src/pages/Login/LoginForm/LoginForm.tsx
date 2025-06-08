@@ -36,7 +36,11 @@ function LoginForm() {
 
     const handleGetDetailUser = async (id: string, token: string) => {
         const res = await getDetailUser({ id, token });
-        dispatch(setUser({ ...res?.data?.data, access_token: token }));
+        const payload = {
+            ...res?.data?.data,
+            access_token: token,
+        };
+        dispatch(setUser(payload));
     };
 
     const onSubmit = async (data: LoginFormData) => {

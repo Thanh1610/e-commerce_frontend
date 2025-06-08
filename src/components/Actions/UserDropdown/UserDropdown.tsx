@@ -6,22 +6,22 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { User, LogOut, Info, RotateCw } from 'lucide-react';
+import { User, LogOut, RotateCw, UserPen } from 'lucide-react';
 import { logoutUser } from '@/utils/userApi';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/slices/userSlice';
 import { useState } from 'react';
-
-type User = {
-    name: string;
-};
+import { useNavigate } from 'react-router';
+import config from '@/config';
+import type { UserState } from '@/redux/slices/userSlice';
 
 interface Props {
-    user: User;
+    user: UserState;
 }
 
 function UserDropdown({ user }: Props) {
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -31,6 +31,10 @@ function UserDropdown({ user }: Props) {
         dispatch(clearUser());
         localStorage.removeItem('access_token');
         setLoading(false);
+    };
+
+    const handleProfileClick = () => {
+        navigate(config.routes.profile);
     };
     return (
         <DropdownMenu>
@@ -42,13 +46,18 @@ function UserDropdown({ user }: Props) {
                     </Button>
                 ) : (
                     <Button variant="outline" className="cursor-pointer">
-                        <User /> {user?.name}
+                        {user?.avatar ? (
+                            <img src={user?.avatar} alt="avatar" className="h-6 w-6 rounded-full" />
+                        ) : (
+                            <User />
+                        )}{' '}
+                        {user?.name}
                     </Button>
                 )}
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="start">
-                <DropdownMenuItem>
-                    <Info /> Thông tin người dùng
+                <DropdownMenuItem onClick={handleProfileClick}>
+                    <UserPen /> Trang cá nhân
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
 

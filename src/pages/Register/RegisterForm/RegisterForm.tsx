@@ -9,7 +9,7 @@ import { registerApi } from '@/utils/userApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import config from '@/config';
-type LoginFormData = {
+type RegisterFormData = {
     email: string;
     password: string;
     confirmPassword: string;
@@ -26,11 +26,11 @@ function RegisterForm() {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<LoginFormData>();
+    } = useForm<RegisterFormData>();
 
     const password = watch('password');
 
-    const onSubmit = async (data: LoginFormData) => {
+    const onSubmit = async (data: RegisterFormData) => {
         setLoading(true);
         try {
             const { email, password, confirmPassword, name, phone } = data;
@@ -97,8 +97,8 @@ function RegisterForm() {
                         {...register('phone', {
                             required: 'Số điện thoại là bắt buộc',
                             minLength: {
-                                value: 1,
-                                message: 'Tối thiểu 1 ký tự',
+                                value: 10,
+                                message: 'Tối thiểu 10 ký tự',
                             },
                         })}
                     />
