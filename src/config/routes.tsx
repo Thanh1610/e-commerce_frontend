@@ -6,6 +6,7 @@ const routes = {
     register: '/register',
     details: '/details',
     profile: '/profile',
+    admin: '/system/admin',
     notfound: '*',
 };
 

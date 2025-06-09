@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 import { useEffect } from 'react';
-import { updateUser } from '@/utils/userApi';
+import { updateUser } from '@/services/userApi';
 import { setUser } from '@/redux/slices/userSlice';
 import { toast } from 'react-toastify';
 import { useState } from 'react';

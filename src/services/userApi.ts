@@ -12,9 +12,9 @@ type LoginResponse = {
     EM: string;
     access_token: string;
 };
-const loginApi = (data: Login): Promise<LoginResponse> => {
+const loginApi = async (data: Login): Promise<LoginResponse> => {
     const URL_API = '/user/login';
-    return axiosCustom.post(URL_API, data);
+    return await axiosCustom.post(URL_API, data);
 };
 
 type Register = {
@@ -28,9 +28,9 @@ type RegisterResponse = {
     EC: number;
     EM: string;
 };
-const registerApi = (data: Register): Promise<RegisterResponse> => {
+const registerApi = async (data: Register): Promise<RegisterResponse> => {
     const URL_API = '/user/register';
-    return axiosCustom.post(URL_API, data);
+    return await axiosCustom.post(URL_API, data);
 };
 
 type GetDetailUser = {
@@ -46,26 +46,26 @@ type GetDetailUserResponse = {
     };
 };
 
-const getDetailUser = (data: GetDetailUser): Promise<GetDetailUserResponse> => {
+const getDetailUser = async (data: GetDetailUser): Promise<GetDetailUserResponse> => {
     const URL_API = `/user/detail-user/${data?.id}`;
 
-    return axiosJwt.get(URL_API, {
+    return await axiosJwt.get(URL_API, {
         headers: {
             Authorization: `Bearer ${data?.token}`,
         },
     });
 };
 
-const refreshToken = () => {
+const refreshToken = async () => {
     const URL_API = '/user/refresh-token';
 
-    return axiosCustom.post(URL_API);
+    return await axiosCustom.post(URL_API);
 };
 
-const logoutUser = () => {
+const logoutUser = async () => {
     const URL_API = '/user/logout';
 
-    return axiosCustom.post(URL_API);
+    return await axiosCustom.post(URL_API);
 };
 
 type UpdatelUser = {
@@ -82,10 +82,10 @@ type UpdateUserResponse = {
     message: string;
     data: UserState;
 };
-const updateUser = (data: UpdatelUser): Promise<UpdateUserResponse> => {
+const updateUser = async (data: UpdatelUser): Promise<UpdateUserResponse> => {
     const URL_API = `/user/update-user/${data?.id}`;
     const { token, ...updateData } = data;
-    return axiosCustom.put(URL_API, updateData, {
+    return await axiosCustom.put(URL_API, updateData, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

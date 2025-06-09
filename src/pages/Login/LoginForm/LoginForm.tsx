@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import config from '@/config';
-import { loginApi, getDetailUser } from '@/utils/userApi';
+import { loginApi, getDetailUser } from '@/services/userApi';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/redux/slices/userSlice';

@@ -1,4 +1,4 @@
-import { refreshToken } from '@/utils/userApi';
+import { refreshToken } from '@/services/userApi';
 import { handleDecoded } from '@/utils/helpers/handleDecoded';
 import axios from 'axios';
 

@@ -9,6 +9,7 @@ export interface UserState {
     adress?: string;
     avatar?: string;
     access_token: string;
+    isAdmin: boolean;
 }
 
 const initialState: UserState = {
@@ -19,6 +20,7 @@ const initialState: UserState = {
     access_token: '',
     adress: '',
     avatar: '',
+    isAdmin: false,
 };
 
 export const userSlice = createSlice({
@@ -26,7 +28,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<UserState>) => {
-            const { name, email, access_token, phone, adress, _id, avatar } = action.payload;
+            const { name, email, access_token, phone, adress, _id, avatar, isAdmin } = action.payload;
             state._id = _id;
             state.name = name;
             state.email = email;
@@ -34,6 +36,7 @@ export const userSlice = createSlice({
             state.adress = adress;
             state.access_token = access_token;
             state.avatar = avatar;
+            state.isAdmin = isAdmin;
         },
         clearUser: (state) => {
             state.name = '';
@@ -42,6 +45,7 @@ export const userSlice = createSlice({
             state.adress = '';
             state.access_token = '';
             state.avatar = '';
+            state.isAdmin = false;
         },
     },
 });

@@ -6,8 +6,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { User, LogOut, RotateCw, UserPen } from 'lucide-react';
-import { logoutUser } from '@/utils/userApi';
+import { User, LogOut, RotateCw, UserPen, MonitorCog } from 'lucide-react';
+import { logoutUser } from '@/services/userApi';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/slices/userSlice';
 import { useState } from 'react';
@@ -31,11 +31,9 @@ function UserDropdown({ user }: Props) {
         dispatch(clearUser());
         localStorage.removeItem('access_token');
         setLoading(false);
+        navigate(config.routes.home);
     };
 
-    const handleProfileClick = () => {
-        navigate(config.routes.profile);
-    };
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="">
@@ -56,9 +54,16 @@ function UserDropdown({ user }: Props) {
                 )}
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="start">
-                <DropdownMenuItem onClick={handleProfileClick}>
+                <DropdownMenuItem onClick={() => navigate(config.routes.profile)}>
                     <UserPen /> Trang cá nhân
                 </DropdownMenuItem>
+
+                {user.isAdmin && (
+                    <DropdownMenuItem onClick={() => navigate(config.routes.admin)}>
+                        <MonitorCog /> Quản lý hệ thống
+                    </DropdownMenuItem>
+                )}
+
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem onClick={handleLogout}>

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Loader } from 'lucide-react';
-import { registerApi } from '@/utils/userApi';
+import { registerApi } from '@/services/userApi';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import config from '@/config';
