@@ -56,7 +56,13 @@ const getDetailUser = async (data: GetDetailUser): Promise<GetDetailUserResponse
     });
 };
 
-const refreshToken = async () => {
+export type RefreshTokenResponse = {
+    status: string;
+    message: string;
+    newAccessToken: string;
+};
+
+const refreshToken = async (): Promise<RefreshTokenResponse> => {
     const URL_API = '/user/refresh-token';
 
     return await axiosCustom.post(URL_API);

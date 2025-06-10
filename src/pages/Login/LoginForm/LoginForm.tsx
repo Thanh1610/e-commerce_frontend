@@ -1,6 +1,4 @@
 import { CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Loader } from 'lucide-react';
@@ -13,6 +11,7 @@ import { loginApi, getDetailUser } from '@/services/userApi';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/redux/slices/userSlice';
+import TextField from '@/components/FormFields/TextField';
 
 type LoginFormData = {
     email: string;
@@ -52,7 +51,7 @@ function LoginForm() {
 
             if (res.EC === 0) {
                 toast.success('Đăng nhập thành công!');
-                localStorage.setItem('access_token', JSON.stringify(res?.access_token));
+                localStorage.setItem('access_token', res?.access_token);
                 navigate(config.routes.home);
 
                 if (res?.access_token) {
@@ -76,42 +75,43 @@ function LoginForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
+                    <TextField
                         id="email"
+                        label="Email"
                         type="email"
                         placeholder="m@example.com"
-                        {...register('email', {
+                        register={register}
+                        rules={{
                             required: 'Email là bắt buộc',
                             pattern: {
                                 value: /^\S+@\S+$/i,
                                 message: 'Email không hợp lệ',
                             },
-                        })}
+                        }}
+                        error={errors.email}
                     />
-
-                    {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
                 </div>
                 <div className="grid gap-2">
-                    <div className="flex items-center">
-                        <Label htmlFor="password">Mật khẩu</Label>
-                        <Link to="/" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                            Quên mật khẩu ?
-                        </Link>
-                    </div>
-                    <Input
+                    <TextField
                         id="password"
+                        label="Mật khẩu"
                         type="password"
                         placeholder="Nhập mật khẩu"
-                        {...register('password', {
+                        register={register}
+                        rules={{
                             required: 'Mật khẩu là bắt buộc',
                             minLength: {
                                 value: 1,
                                 message: 'Tối thiểu 1 ký tự',
                             },
-                        })}
+                        }}
+                        error={errors.email}
                     />
-                    {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                    <div className="flex items-center">
+                        <Link to="/" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
+                            Quên mật khẩu ?
+                        </Link>
+                    </div>
                 </div>
             </div>
             <CardFooter className="mt-3 flex-col">

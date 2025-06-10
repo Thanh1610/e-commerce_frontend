@@ -25,7 +25,7 @@ export const routes = [
     {
         path: config.routes.admin,
         component: lazy(() => import('@/pages/Admin/AdminPage')),
-        layout: lazy(() => import('@/pages/Admin/AdminPage')),
+        // layout: lazy(() => import('@/pages/Admin/AdminPage')),
         isPrivate: true,
     },
 ];

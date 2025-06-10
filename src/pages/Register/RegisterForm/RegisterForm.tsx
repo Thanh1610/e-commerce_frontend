@@ -58,7 +58,7 @@ function RegisterForm() {
                     <Input
                         id="name"
                         type="text"
-                        placeholder="Nhập mật khẩu"
+                        placeholder="Nhập tên"
                         {...register('name', {
                             required: 'Tên là bắt buộc',
                             minLength: {
