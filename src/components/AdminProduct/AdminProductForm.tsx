@@ -12,6 +12,7 @@ import { createProduct } from '@/services/productApi';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
+import { useProductContext } from '@/contexts/ProductContext';
 
 export type AddProductFormData = {
     name: string;
@@ -28,7 +29,7 @@ export type AddProductFormData = {
 
 function AdminProductForm() {
     const [loading, setLoading] = useState<boolean>(false);
-
+    const { refreshProducts } = useProductContext();
     const {
         register,
         handleSubmit,
@@ -56,6 +57,7 @@ function AdminProductForm() {
 
             if (res?.status === 'SUCCESS') {
                 toast.success('Thêm sản phẩm thành công!');
+                await refreshProducts();
             } else {
                 toast.error(res?.message);
             }

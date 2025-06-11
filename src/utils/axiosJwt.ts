@@ -7,6 +7,7 @@ import { setUser } from '@/redux/slices/userSlice';
 
 const axiosJwt = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
+    withCredentials: true,
 });
 
 axiosJwt.interceptors.request.use(

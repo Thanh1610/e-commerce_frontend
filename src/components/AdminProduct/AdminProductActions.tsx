@@ -6,12 +6,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import { MoreHorizontal } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import AdminProductUpdateForm from './AdminProductUpdateForm';
 import type { Product } from '@/pages/Home/HomePage';
 import { useState } from 'react';
+import AdminProductDeleteModal from './AdminProductDeleteModal';
 
 export interface AdminProductActionsProps {
     product: Product;
@@ -19,6 +21,7 @@ export interface AdminProductActionsProps {
 
 function AdminProductActions({ product }: AdminProductActionsProps) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
     return (
         <>
             <DropdownMenu>
@@ -36,7 +39,9 @@ function AdminProductActions({ product }: AdminProductActionsProps) {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>Sửa sản phẩm</DropdownMenuItem>
 
-                    <DropdownMenuItem className="text-red-600">Xóa sản phẩm</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)} className="text-red-600">
+                        Xóa sản phẩm
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
 
@@ -46,6 +51,8 @@ function AdminProductActions({ product }: AdminProductActionsProps) {
                     <AdminProductUpdateForm product={product} />
                 </DialogContent>
             </Dialog>
+
+            <AdminProductDeleteModal open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen} product={product} />
         </>
     );
 }

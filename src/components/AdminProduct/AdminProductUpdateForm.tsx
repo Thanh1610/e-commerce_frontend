@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { RotateCw } from 'lucide-react';
 import type { AdminProductActionsProps } from './AdminProductActions';
+import { useProductContext } from '@/contexts/ProductContext';
 
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -30,6 +31,7 @@ export type AddProductFormData = {
 
 function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
     const [loading, setLoading] = useState<boolean>(false);
+    const { refreshProducts } = useProductContext();
 
     const {
         register,
@@ -59,6 +61,7 @@ function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
 
             if (res?.status === 'SUCCESS') {
                 toast.success(res?.message);
+                await refreshProducts();
             } else {
                 toast.error(res?.message);
             }

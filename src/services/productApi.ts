@@ -35,4 +35,11 @@ const updateProduct = async (data: ProductFormData): Promise<CreateProductRepons
     return await axios.put(URL_API, data);
 };
 
-export { getAllProduct, createProduct, updateProduct };
+type DeleteProduct = {
+    _id: string;
+};
+const deleteProduct = async ({ _id }: DeleteProduct): Promise<CreateProductReponse> => {
+    const URL_API = `/product/delete/${_id}`;
+    return await axios.delete(URL_API);
+};
+export { getAllProduct, createProduct, updateProduct, deleteProduct };
