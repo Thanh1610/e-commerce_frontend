@@ -24,7 +24,7 @@ export default function AdminProduct() {
     return (
         <div className="w-full p-[15px]">
             <h2 className="text-2xl font-bold">Quản lý Sản phẩm</h2>
-            <AdminProductModal />
+            <AdminProductModal title="Thêm sản phẩm" />
             <DataTable columns={columns} data={data} searchColumn="name" />
         </div>
     );

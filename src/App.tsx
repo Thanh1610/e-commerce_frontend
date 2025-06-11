@@ -24,7 +24,6 @@ export function App() {
 
             const payload = {
                 ...res?.data?.data,
-                access_token: token,
             };
 
             dispatch(setUser(payload));

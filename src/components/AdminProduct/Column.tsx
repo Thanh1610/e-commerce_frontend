@@ -1,15 +1,8 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import AdminProductActions from './AdminProductActions';
 import type { Product } from '@/pages/Home/HomePage';
 
 export const columns: ColumnDef<Product>[] = [
@@ -104,26 +97,7 @@ export const columns: ColumnDef<Product>[] = [
         id: 'actions',
         cell: ({ row }) => {
             const product = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product._id)}>
-                            Sao chép ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Sửa sản phẩm</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">Xóa sản phẩm</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
+            return <AdminProductActions product={product} />;
         },
     },
 ];

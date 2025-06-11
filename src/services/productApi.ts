@@ -12,6 +12,7 @@ type ProductFormData = {
     description?: string;
     isSale?: boolean;
     token?: string;
+    _id?: string;
 };
 
 const getAllProduct = async () => {
@@ -29,4 +30,9 @@ const createProduct = async (data: ProductFormData): Promise<CreateProductRepons
     return await axios.post(URL_API, data);
 };
 
-export { getAllProduct, createProduct };
+const updateProduct = async (data: ProductFormData): Promise<CreateProductReponse> => {
+    const URL_API = `/product/update/${data?._id}`;
+    return await axios.put(URL_API, data);
+};
+
+export { getAllProduct, createProduct, updateProduct };

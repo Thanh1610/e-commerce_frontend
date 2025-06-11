@@ -1,17 +1,21 @@
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { useState, useEffect } from 'react';
+import { RotateCw } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/redux/store';
+import type { AdminProductActionsProps } from './AdminProductActions';
+
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useForm } from 'react-hook-form';
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { getBase64 } from '@/utils/helpers/getBase64';
+import { updateProduct } from '@/services/productApi';
 import TextField from '@/components/FormFields/TextField';
 import NumberField from '@/components/FormFields/NumberField';
 import SelectField from '@/components/FormFields/SelectField';
-import { getBase64 } from '@/utils/helpers/getBase64';
-import { createProduct } from '@/services/productApi';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
-import { RotateCw } from 'lucide-react';
 
 export type AddProductFormData = {
     name: string;
@@ -26,8 +30,9 @@ export type AddProductFormData = {
     isSale?: boolean;
 };
 
-function AdminProductForm() {
+function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
     const [loading, setLoading] = useState<boolean>(false);
+    const user = useSelector((state: RootState) => state.user);
 
     const {
         register,
@@ -50,12 +55,14 @@ function AdminProductForm() {
             const payload = {
                 ...data,
                 image: base64Avatar,
+                _id: product?._id,
+                token: user?.access_token,
             };
 
-            const res = await createProduct(payload);
+            const res = await updateProduct(payload);
 
             if (res?.status === 'SUCCESS') {
-                toast.success('Thêm sản phẩm thành công!');
+                toast.success(res?.message);
             } else {
                 toast.error(res?.message);
             }
@@ -63,13 +70,26 @@ function AdminProductForm() {
             console.log(error);
         } finally {
             setLoading(false);
-            reset();
         }
     };
+
+    useEffect(() => {
+        if (product) {
+            reset({
+                name: product?.name,
+                type: product?.type,
+                price: product?.price,
+                oldPrice: product?.oldPrice,
+                selled: product?.selled,
+                countInStock: product?.countInStock,
+                rating: product?.rating,
+            });
+        }
+    }, [product, reset]);
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
-                <DialogTitle>Thêm sản phẩm</DialogTitle>
+                <DialogTitle>Cập nhật sản phẩm</DialogTitle>
             </DialogHeader>
 
             <div className="mt-6 flex flex-col gap-4">
@@ -216,4 +236,4 @@ function AdminProductForm() {
     );
 }
 
-export default AdminProductForm;
+export default AdminProductUpdateForm;

@@ -9,7 +9,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
     function (config) {
         // Thực hiện trước khi gửi request
-        // Lấy ra jwt nếu có
+        // Nếu có token tự động gán vào api
 
         const token = localStorage.getItem('access_token');
         if (token) {

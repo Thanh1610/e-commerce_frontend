@@ -48,12 +48,7 @@ type GetDetailUserResponse = {
 
 const getDetailUser = async (data: GetDetailUser): Promise<GetDetailUserResponse> => {
     const URL_API = `/user/detail-user/${data?.id}`;
-
-    return await axiosJwt.get(URL_API, {
-        headers: {
-            Authorization: `Bearer ${data?.token}`,
-        },
-    });
+    return await axiosJwt.get(URL_API);
 };
 
 export type RefreshTokenResponse = {
@@ -64,13 +59,11 @@ export type RefreshTokenResponse = {
 
 const refreshToken = async (): Promise<RefreshTokenResponse> => {
     const URL_API = '/user/refresh-token';
-
     return await axiosCustom.post(URL_API);
 };
 
 const logoutUser = async () => {
     const URL_API = '/user/logout';
-
     return await axiosCustom.post(URL_API);
 };
 
@@ -90,12 +83,7 @@ type UpdateUserResponse = {
 };
 const updateUser = async (data: UpdatelUser): Promise<UpdateUserResponse> => {
     const URL_API = `/user/update-user/${data?.id}`;
-    const { token, ...updateData } = data;
-    return await axiosCustom.put(URL_API, updateData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    return await axiosCustom.put(URL_API, data);
 };
 
 export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser };
