@@ -45,7 +45,6 @@ function UserInfoTable() {
                 id: user?._id,
                 ...data,
                 avatar: base64Avatar,
-                token: user?.access_token,
             };
 
             const res = await updateUser(payload);

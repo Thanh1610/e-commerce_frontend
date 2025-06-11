@@ -2,8 +2,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { RotateCw } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '@/redux/store';
 import type { AdminProductActionsProps } from './AdminProductActions';
 
 import { Label } from '@/components/ui/label';
@@ -32,7 +30,6 @@ export type AddProductFormData = {
 
 function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
     const [loading, setLoading] = useState<boolean>(false);
-    const user = useSelector((state: RootState) => state.user);
 
     const {
         register,
@@ -56,7 +53,6 @@ function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
                 ...data,
                 image: base64Avatar,
                 _id: product?._id,
-                token: user?.access_token,
             };
 
             const res = await updateProduct(payload);

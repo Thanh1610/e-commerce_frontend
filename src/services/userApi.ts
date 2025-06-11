@@ -69,7 +69,6 @@ const logoutUser = async () => {
 
 type UpdatelUser = {
     id: string;
-    token: string;
     adress: string;
     phone: string;
     name: string;
