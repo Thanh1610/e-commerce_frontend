@@ -34,6 +34,7 @@ function AdminProductForm() {
         handleSubmit,
         setValue,
         watch,
+        reset,
         formState: { errors },
     } = useForm<AddProductFormData>();
 
@@ -62,6 +63,7 @@ function AdminProductForm() {
             console.log(error);
         } finally {
             setLoading(false);
+            reset();
         }
     };
     return (

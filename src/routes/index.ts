@@ -19,8 +19,8 @@ export const routes = [
     { path: config.routes.profile, component: lazy(() => import('@/pages/Profile/ProfilePage')) },
     {
         path: config.routes.notfound,
-        component: lazy(() => import('@/pages/NotFound/ProductsPage')),
-        layout: lazy(() => import('@/pages/NotFound/ProductsPage')),
+        component: lazy(() => import('@/pages/NotFound/NotFoundPage')),
+        layout: lazy(() => import('@/pages/NotFound/NotFoundPage')),
     },
     {
         path: config.routes.admin,

@@ -22,9 +22,10 @@ import { ChevronDown } from 'lucide-react';
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    searchColumn?: string;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email' }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -52,12 +53,21 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     return (
         <div>
             <div className="flex items-center py-4">
-                <Input
-                    placeholder="Filter emails..."
-                    value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-                    onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
-                    className="max-w-sm"
-                />
+                {searchColumn ? (
+                    <Input
+                        placeholder="Search..."
+                        value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
+                        className="max-w-sm"
+                    />
+                ) : (
+                    <Input
+                        placeholder="Search..."
+                        value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+                        className="max-w-sm"
+                    />
+                )}
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

@@ -1,7 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
-import { MoreHorizontal } from 'lucide-react';
-
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -12,16 +10,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import type { Product } from '@/pages/Home/HomePage';
 
-export type Payment = {
-    id: string;
-    amount: number;
-    status: 'pending' | 'processing' | 'success' | 'failed';
-    email: string;
-    phone: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Product>[] = [
     {
         id: 'select',
         header: ({ table }) => (
@@ -42,37 +33,77 @@ export const columns: ColumnDef<Payment>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: 'id',
-        header: 'ID',
+        accessorKey: 'image',
+        header: 'Hình ảnh',
+        cell: ({ row }) => {
+            const image = row.getValue('image') as string;
+            return (
+                <div className="h-10 w-10">
+                    <img src={image} alt={row.getValue('name')} className="h-full w-full rounded-md object-cover" />
+                </div>
+            );
+        },
     },
     {
-        accessorKey: 'email',
+        accessorKey: 'name',
         header: ({ column }) => {
             return (
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-                    Email
+                    Tên sản phẩm
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
     },
     {
-        accessorKey: 'amount',
-        header: () => <div className="text-right">Amount</div>,
+        accessorKey: 'type',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Loại
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+    },
+    {
+        accessorKey: 'price',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Giá
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue('amount'));
-            const formatted = new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-            }).format(amount);
-
-            return <div className="text-right font-medium">{formatted}</div>;
+            const price = row.getValue('price') as number;
+            return <div>{price.toLocaleString('vi-VN')}đ</div>;
+        },
+    },
+    {
+        accessorKey: 'countInStock',
+        header: 'Tồn kho',
+    },
+    {
+        accessorKey: 'rating',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Đánh giá
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const rating = row.getValue('rating') as number;
+            return <div>{rating.toFixed(1)} ⭐</div>;
         },
     },
     {
         id: 'actions',
         cell: ({ row }) => {
-            const payment = row.original;
+            const product = row.original;
 
             return (
                 <DropdownMenu>
@@ -84,12 +115,12 @@ export const columns: ColumnDef<Payment>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product._id)}>
                             Sao chép ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Xem khách hàng</DropdownMenuItem>
-                        <DropdownMenuItem>Xem chi tiết thanh toán</DropdownMenuItem>
+                        <DropdownMenuItem>Sửa sản phẩm</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">Xóa sản phẩm</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

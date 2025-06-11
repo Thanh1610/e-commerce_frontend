@@ -8,13 +8,16 @@ import { getAllProduct } from '@/services/productApi';
 
 export type Product = {
     _id: string;
-    countInStock: number;
-    description: string;
-    image: string;
     name: string;
-    price: number;
-    rating: string;
+    image: string;
     type: string;
+    price: number;
+    oldPrice?: number;
+    selled?: number;
+    countInStock: number;
+    rating: number;
+    description?: string;
+    isSale?: boolean;
 };
 
 function HomePage() {
