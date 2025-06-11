@@ -82,7 +82,7 @@ function UserInfoTable() {
     return (
         <div className="mx-auto mt-5 w-xl">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-2">
-                <div className="r flex gap-2">
+                <div className="flex gap-2">
                     <Label className="block w-30 content-center text-left" htmlFor="email">
                         Email:{' '}
                     </Label>

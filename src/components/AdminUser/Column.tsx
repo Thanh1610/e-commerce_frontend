@@ -13,15 +13,17 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export type Payment = {
-    id: string;
-    amount: number;
-    status: 'pending' | 'processing' | 'success' | 'failed';
+export type User = {
+    _id: string;
+    name: string;
     email: string;
     phone: string;
+    isAdmin: boolean;
+    adress?: string;
+    avatar?: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
     {
         id: 'select',
         header: ({ table }) => (
@@ -42,8 +44,37 @@ export const columns: ColumnDef<Payment>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: 'id',
+        accessorKey: '_id',
         header: 'Id',
+    },
+    {
+        accessorKey: 'avatar',
+        header: 'Avatar',
+        cell: ({ row }) => {
+            const avatar = row.getValue('avatar') as string;
+            return (
+                <div className="h-10 w-10">
+                    <img
+                        src={
+                            avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-15.jpg'
+                        }
+                        alt={row.getValue('name')}
+                        className="h-full w-full rounded-md object-cover"
+                    />
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: 'name',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Tên
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
     },
     {
         accessorKey: 'email',
@@ -57,22 +88,28 @@ export const columns: ColumnDef<Payment>[] = [
         },
     },
     {
-        accessorKey: 'amount',
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue('amount'));
-            const formatted = new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-            }).format(amount);
-
-            return <div className="text-right font-medium">{formatted}</div>;
+        accessorKey: 'phone',
+        header: 'Số điện thoại',
+    },
+    {
+        accessorKey: 'adress',
+        header: 'Địa chỉ',
+    },
+    {
+        accessorKey: 'isAdmin',
+        header: ({ column }) => {
+            return (
+                <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+                    Admin
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
         },
     },
     {
         id: 'actions',
         cell: ({ row }) => {
-            const payment = row.original;
+            const user = row.original;
 
             return (
                 <DropdownMenu>
@@ -84,7 +121,7 @@ export const columns: ColumnDef<Payment>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user?._id)}>
                             Sao chép ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />

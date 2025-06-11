@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/button';
 import AdminProductForm from './AdminProductForm';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
-export type AdminUserModalProps = {
+export type AdminProductModalProps = {
     title: string;
 };
 
-function AdminUserModal({ title }: AdminUserModalProps) {
+function AdminProductModal({ title }: AdminProductModalProps) {
     return (
         <Dialog>
             <DialogTrigger asChild className="mt-5 bg-neutral-800">
@@ -23,4 +23,4 @@ function AdminUserModal({ title }: AdminUserModalProps) {
     );
 }
 
-export default AdminUserModal;
+export default AdminProductModal;

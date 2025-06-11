@@ -23,6 +23,8 @@ type Register = {
     confirmPassword: string;
     name: string;
     phone: string;
+    adress?: string;
+    avatar?: string;
 };
 type RegisterResponse = {
     EC: number;
@@ -85,4 +87,9 @@ const updateUser = async (data: UpdatelUser): Promise<UpdateUserResponse> => {
     return await axiosCustom.put(URL_API, data);
 };
 
-export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser };
+const getAllUser = async () => {
+    const URL_API = '/user/users';
+    return await axiosCustom.get(URL_API);
+};
+
+export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser, getAllUser };

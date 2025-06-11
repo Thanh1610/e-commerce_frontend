@@ -19,7 +19,6 @@ export default function AdminProduct() {
     };
 
     useEffect(() => {
-        console.log('đã cập nhật');
         fetchProducts();
     }, []);
 
