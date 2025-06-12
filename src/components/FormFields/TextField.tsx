@@ -11,7 +11,7 @@ export type TextFieldProps = {
     disabled?: boolean;
     placeholder?: string;
     error?: FieldError;
-    classname?: string;
+    className?: string;
 };
 function TextField({
     id,
@@ -22,11 +22,11 @@ function TextField({
     disabled = false,
     placeholder = '',
     error,
-    classname = '',
+    className = '',
 }: TextFieldProps) {
     return (
         <>
-            <Label className={classname} htmlFor={id}>
+            <Label className={className} htmlFor={id}>
                 {label}
             </Label>
             <Input id={id} type={type} disabled={disabled} placeholder={placeholder} {...register(id, rules)} />

@@ -10,15 +10,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import AdminProductUpdateForm from './AdminProductUpdateForm';
-import type { Product } from '@/pages/Home/HomePage';
 import { useState } from 'react';
-import AdminProductDeleteModal from './AdminProductDeleteModal';
-export interface AdminProductActionsProps {
-    product: Product;
+import type { User } from '@/components/AdminUser/Column';
+import AdminUserDeleteModal from '@/components/AdminUser/AdminUserDeleteModal';
+import AdminUserUpdateForm from '@/components/AdminUser/AdminUserUpdateForm';
+
+export interface AdminUserActionsProps {
+    user: User;
 }
 
-function AdminProductActions({ product }: AdminProductActionsProps) {
+function AdminUserActions({ user }: AdminUserActionsProps) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
     return (
@@ -32,14 +33,14 @@ function AdminProductActions({ product }: AdminProductActionsProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product._id)}>
+                    <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user._id)}>
                         Sao chép ID
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>Sửa sản phẩm</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>Cập nhật người dùng</DropdownMenuItem>
 
                     <DropdownMenuItem onClick={() => setIsDeleteDialogOpen(true)} className="text-red-600">
-                        Xóa sản phẩm
+                        Xóa người dùng
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -47,13 +48,13 @@ function AdminProductActions({ product }: AdminProductActionsProps) {
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                 <DialogTrigger asChild className="mt-5 bg-neutral-800"></DialogTrigger>
                 <DialogContent aria-describedby={undefined} className="max-h-[90vh] overflow-auto sm:max-w-2xl">
-                    <AdminProductUpdateForm product={product} />
+                    <AdminUserUpdateForm users={user} />
                 </DialogContent>
             </Dialog>
 
-            <AdminProductDeleteModal open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen} product={product} />
+            <AdminUserDeleteModal open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen} user={user} />
         </>
     );
 }
 
-export default AdminProductActions;
+export default AdminUserActions;

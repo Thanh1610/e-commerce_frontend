@@ -60,10 +60,10 @@ function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
             const res = await updateProduct(payload);
 
             if (res?.status === 'SUCCESS') {
-                toast.success(res?.message);
                 await refreshProducts();
+                toast.success(res?.message || 'Cập nhật thành công!');
             } else {
-                toast.error(res?.message);
+                toast.error(res?.message || 'Cập nhật thất bại!');
             }
         } catch (error) {
             console.log(error);

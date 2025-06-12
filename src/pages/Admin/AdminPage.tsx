@@ -41,7 +41,7 @@ function AdminPage() {
             </div>
 
             {/* content */}
-            <div className="container mx-auto my-0 max-w-3xl p-6">{renderPage(activeKey)}</div>
+            <div className="container mx-auto my-0 max-w-5xl p-6">{renderPage(activeKey)}</div>
         </div>
     );
 }

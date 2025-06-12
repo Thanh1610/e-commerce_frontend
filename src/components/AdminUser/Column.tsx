@@ -1,17 +1,9 @@
 import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
-import { MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import AdminUserActions from '@/components/AdminUser/AdminUserActions';
 
 export type User = {
     _id: string;
@@ -111,25 +103,7 @@ export const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             const user = row.original;
 
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user?._id)}>
-                            Sao chép ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Xem khách hàng</DropdownMenuItem>
-                        <DropdownMenuItem>Xem chi tiết thanh toán</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
+            return <AdminUserActions user={user} />;
         },
     },
 ];

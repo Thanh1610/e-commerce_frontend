@@ -2,16 +2,14 @@ import { useForm } from 'react-hook-form';
 import UserUpdateField from '../FormFields/UserUpdateField';
 
 import { Button } from '@/components/ui/button';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/redux/store';
 import { useEffect } from 'react';
 import { updateUser } from '@/services/userApi';
-import { setUser } from '@/redux/slices/userSlice';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { getBase64 } from '@/utils/helpers/getBase64';
-import type { UserState } from '@/redux/slices/userSlice';
+import type { User } from '@/components/AdminUser/Column';
+import { useUserContext } from '@/contexts/UserContext';
 
 export type InfoUserData = {
     email: string;
@@ -22,10 +20,14 @@ export type InfoUserData = {
     access_token: string;
 };
 
-function UserInfoTable() {
+type UserInfoTableProps = {
+    users: User;
+};
+
+function AdminUserUpdateForm({ users }: UserInfoTableProps) {
     const [loading, setLoading] = useState<boolean>(false);
-    const user: UserState = useSelector((state: RootState) => state.user);
-    const dispatch = useDispatch();
+    const { refreshUsers } = useUserContext();
+
     const {
         register,
         handleSubmit,
@@ -43,7 +45,7 @@ function UserInfoTable() {
             }
 
             const payload = {
-                id: user?._id,
+                id: users?._id,
                 ...data,
                 avatar: base64Avatar,
             };
@@ -51,13 +53,7 @@ function UserInfoTable() {
             const res = await updateUser(payload);
 
             if (res?.status === 'OK') {
-                const updatedUser = {
-                    ...user,
-                    ...data,
-                    avatar: res.data.avatar,
-                };
-
-                dispatch(setUser(updatedUser));
+                await refreshUsers();
                 toast.success(res?.message || 'Cập nhật thành công!');
             } else {
                 toast.error(res?.message || 'Cập nhật thất bại!');
@@ -70,15 +66,15 @@ function UserInfoTable() {
     };
 
     useEffect(() => {
-        if (user) {
+        if (users) {
             reset({
-                name: user.name || '',
-                email: user.email || '',
-                phone: user.phone || '',
-                adress: user.adress || '',
+                name: users.name || '',
+                email: users.email || '',
+                phone: users.phone || '',
+                adress: users.adress || '',
             });
         }
-    }, [user, reset]);
+    }, [users, reset]);
 
     return (
         <div className="mx-auto mt-5 w-xl">
@@ -101,4 +97,4 @@ function UserInfoTable() {
     );
 }
 
-export default UserInfoTable;
+export default AdminUserUpdateForm;

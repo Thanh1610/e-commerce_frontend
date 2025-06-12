@@ -4,7 +4,6 @@ export const ProductContext = createContext<{ refreshProducts: () => void } | nu
 
 export const useProductContext = () => {
     const product = useContext(ProductContext);
-    console.log('🚀 ~ useProductContext ~ product:', product);
     if (!product) throw new Error('useProductContext phải nằm trong ProductProvider');
     return product;
 };

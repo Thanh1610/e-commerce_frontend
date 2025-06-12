@@ -13,7 +13,7 @@ interface NumberFieldProps {
     max?: number;
     step?: number;
     disabled?: boolean;
-    classname?: string;
+    className?: string;
 }
 function NumberField({
     id,
@@ -25,11 +25,11 @@ function NumberField({
     max,
     step = 1,
     disabled = false,
-    classname = '',
+    className = '',
 }: NumberFieldProps) {
     return (
         <>
-            <Label className={classname} htmlFor={id}>
+            <Label className={className} htmlFor={id}>
                 {label}
             </Label>
             <Input id={id} type="number" min={min} max={max} step={step} disabled={disabled} {...register(id, rules)} />

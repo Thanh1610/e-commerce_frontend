@@ -77,12 +77,12 @@ type UpdatelUser = {
     email: string;
 };
 
-type UpdateUserResponse = {
+type UserResponse = {
     status: string;
     message: string;
     data: UserState;
 };
-const updateUser = async (data: UpdatelUser): Promise<UpdateUserResponse> => {
+const updateUser = async (data: UpdatelUser): Promise<UserResponse> => {
     const URL_API = `/user/update-user/${data?.id}`;
     return await axiosCustom.put(URL_API, data);
 };
@@ -92,4 +92,12 @@ const getAllUser = async () => {
     return await axiosCustom.get(URL_API);
 };
 
-export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser, getAllUser };
+type DeleteProduct = {
+    _id: string;
+};
+const deleteUser = async ({ _id }: DeleteProduct): Promise<UserResponse> => {
+    const URL_API = `/user/delete-user/${_id}`;
+    return await axiosCustom.delete(URL_API);
+};
+
+export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser, getAllUser, deleteUser };

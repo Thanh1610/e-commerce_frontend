@@ -184,11 +184,8 @@ function AdminUserform() {
                             Please wait
                         </Button>
                     ) : (
-                        <Button type="submit" className="w-full">
-                            Đăng ký
-                        </Button>
+                        <Button type="submit">Save changes</Button>
                     )}
-                    <Button type="submit">Save changes</Button>
                 </SheetFooter>
             </form>
         </SheetContent>

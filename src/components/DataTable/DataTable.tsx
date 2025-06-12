@@ -48,6 +48,11 @@ export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email'
             columnVisibility,
             rowSelection,
         },
+        initialState: {
+            pagination: {
+                pageSize: 6,
+            },
+        },
     });
 
     return (
@@ -55,14 +60,14 @@ export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email'
             <div className="flex items-center py-4">
                 {searchColumn ? (
                     <Input
-                        placeholder="Search..."
+                        placeholder="Tìm kiếm tên..."
                         value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ''}
                         onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
                         className="max-w-sm"
                     />
                 ) : (
                     <Input
-                        placeholder="Search..."
+                        placeholder="Tìm kiếm email..."
                         value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
                         onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
                         className="max-w-sm"
