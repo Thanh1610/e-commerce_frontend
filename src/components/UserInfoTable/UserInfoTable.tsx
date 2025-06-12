@@ -1,17 +1,17 @@
-import { useForm } from 'react-hook-form';
-import UserUpdateField from '../FormFields/UserUpdateField';
-
-import { Button } from '@/components/ui/button';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/redux/store';
-import { useEffect } from 'react';
-import { updateUser } from '@/services/userApi';
-import { setUser } from '@/redux/slices/userSlice';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RotateCw } from 'lucide-react';
-import { getBase64 } from '@/utils/helpers/getBase64';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+
+import type { RootState } from '@/redux/store';
 import type { UserState } from '@/redux/slices/userSlice';
+import { setUser } from '@/redux/slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@/components/ui/button';
+
+import { updateUser } from '@/services/userApi';
+import { getBase64 } from '@/utils/helpers/getBase64';
+import UserUpdateField from '@/components/FormFields/UserUpdateField';
 
 export type InfoUserData = {
     email: string;

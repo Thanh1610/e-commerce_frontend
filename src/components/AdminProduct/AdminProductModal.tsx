@@ -1,6 +1,6 @@
 import { ListPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import AdminProductForm from './AdminProductForm';
+import AdminProductForm from '@/components/AdminProduct/AdminProductForm';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export type AdminProductModalProps = {

@@ -1,10 +1,11 @@
-import { DataTable } from '@/components/DataTable/DataTable';
-import { columns } from './Column';
-import type { User } from './Column';
 import { useState, useEffect } from 'react';
-import AdminUserSheet from './AdminUserSheet';
+import type { User } from '@/components/AdminUser/Column';
+
+import { DataTable } from '@/components/DataTable/DataTable';
+import { columns } from '@/components/AdminUser/Column';
 import { UserContext } from '@/contexts/UserContext';
 import { getAllUser } from '@/services/userApi';
+import AdminUserSheet from '@/components/AdminUser/AdminUserSheet';
 
 export default function AdminUser() {
     const [data, setData] = useState<User[]>([]);

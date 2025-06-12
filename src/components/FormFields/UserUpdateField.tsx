@@ -1,8 +1,10 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import TextField from './TextField';
+
 import type { UseFormRegister, FieldErrors } from 'react-hook-form';
 import type { InfoUserData } from '@/components/UserInfoTable/UserInfoTable';
+
+import TextField from './TextField';
 
 type UserInputFieldsProps = {
     register: UseFormRegister<InfoUserData>;

@@ -1,7 +1,7 @@
 import { User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-import AdminUserform from './AdminUserForm';
+import AdminUserform from '@/components/AdminUser/AdminUserform';
 
 export type AdminUserModalProps = {
     title: string;

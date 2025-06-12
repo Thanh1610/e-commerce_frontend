@@ -1,10 +1,11 @@
 import { DataTable } from '@/components/DataTable/DataTable';
-import { columns } from './Column';
-import type { Product } from '@/pages/Home/HomePage';
+import { columns } from '@/components/AdminProduct/Column';
 import { useState, useEffect } from 'react';
-import AdminProductModal from './AdminProductModal';
+
+import type { Product } from '@/pages/Home/HomePage';
 import { getAllProduct } from '@/services/productApi';
 import { ProductContext } from '@/contexts/ProductContext';
+import AdminProductModal from '@/components/AdminProduct/AdminProductModal';
 
 export default function AdminProduct() {
     const [data, setData] = useState<Product[]>([]);
