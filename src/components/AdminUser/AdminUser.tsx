@@ -37,7 +37,7 @@ export default function AdminUser() {
                 {loading ? (
                     <div className="py-10 text-center text-gray-500">Đang tải dữ liệu người dùng...</div>
                 ) : (
-                    <DataTable columns={columns} data={data} />
+                    <DataTable columns={columns} data={data} type="user" />
                 )}
             </div>
         </UserContext.Provider>

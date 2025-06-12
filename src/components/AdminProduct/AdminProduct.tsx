@@ -35,7 +35,7 @@ export default function AdminProduct() {
                 {loading ? (
                     <div className="py-10 text-center text-gray-500">Đang tải dữ liệu sản phẩm...</div>
                 ) : (
-                    <DataTable columns={columns} data={data} searchColumn="name" />
+                    <DataTable columns={columns} data={data} type="product" />
                 )}
             </div>
         </ProductContext.Provider>

@@ -30,10 +30,10 @@ function RegisterForm() {
 
             const res = await registerApi({ email, password, confirmPassword, name, phone });
             if (res.EC === 0) {
-                toast.success('Đăng kí thành công!');
+                toast.success(res?.EM || 'Đăng kí thành công!');
                 navigate(config.routes.login);
             } else {
-                toast.error('Email đã tồn tại!');
+                toast.error(res?.EM || 'Đăng kí thất bạ!');
             }
         } catch (error) {
             console.log(error);

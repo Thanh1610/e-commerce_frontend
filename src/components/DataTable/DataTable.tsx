@@ -18,14 +18,16 @@ import {
 import type { SortingState, ColumnDef, ColumnFiltersState, VisibilityState } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChevronDown } from 'lucide-react';
+import DataTableDeleteModal from './DataTableDeleteModal';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     searchColumn?: string;
+    type: 'product' | 'user';
 }
 
-export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email' }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, type }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -57,12 +59,12 @@ export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email'
 
     return (
         <div>
-            <div className="flex items-center py-4">
-                {searchColumn ? (
+            <div className="flex items-center justify-between py-4">
+                {type === 'product' ? (
                     <Input
                         placeholder="Tìm kiếm tên..."
-                        value={(table.getColumn(searchColumn)?.getFilterValue() as string) ?? ''}
-                        onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
+                        value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
                         className="max-w-sm"
                     />
                 ) : (
@@ -74,34 +76,44 @@ export function DataTable<TData, TValue>({ columns, data, searchColumn = 'email'
                     />
                 )}
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Lọc <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center gap-4">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="ml-auto">
+                                Lọc <ChevronDown />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    );
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
-                <div className="text-muted-foreground flex-1 text-sm">
-                    {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length}{' '}
-                    row(s) selected.
+                    {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+                        <DataTableDeleteModal table={table} type={type} />
+                    ) : (
+                        <Button
+                            size="sm"
+                            disabled
+                            variant="link"
+                            className="text-muted-foreground flex flex-1 justify-end text-sm"
+                        >
+                            0/{table.getFilteredRowModel().rows.length} mục đã chọn
+                        </Button>
+                    )}
                 </div>
             </div>
             <div className="rounded-md border">

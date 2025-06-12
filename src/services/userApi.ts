@@ -92,12 +92,35 @@ const getAllUser = async () => {
     return await axiosCustom.get(URL_API);
 };
 
-type DeleteProduct = {
+type DeleteUser = {
     _id: string;
 };
-const deleteUser = async ({ _id }: DeleteProduct): Promise<UserResponse> => {
+const deleteUser = async ({ _id }: DeleteUser): Promise<UserResponse> => {
     const URL_API = `/user/delete-user/${_id}`;
     return await axiosCustom.delete(URL_API);
 };
 
-export { loginApi, registerApi, getDetailUser, refreshToken, logoutUser, updateUser, getAllUser, deleteUser };
+type DeleteManyResponse = {
+    status: string;
+    message: string;
+    data: {
+        acknowledged: boolean;
+        deletedCount: number;
+    };
+};
+const deleteManyUser = async (userIds: string[]): Promise<DeleteManyResponse> => {
+    const URL_API = '/user/delete-many';
+    return await axiosCustom.delete(URL_API, { data: userIds });
+};
+
+export {
+    loginApi,
+    registerApi,
+    getDetailUser,
+    refreshToken,
+    logoutUser,
+    updateUser,
+    getAllUser,
+    deleteUser,
+    deleteManyUser,
+};

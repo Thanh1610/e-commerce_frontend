@@ -42,4 +42,17 @@ const deleteProduct = async ({ _id }: DeleteProduct): Promise<CreateProductRepon
     const URL_API = `/product/delete/${_id}`;
     return await axios.delete(URL_API);
 };
-export { getAllProduct, createProduct, updateProduct, deleteProduct };
+
+type DeleteManyResponse = {
+    status: string;
+    message: string;
+    data: {
+        acknowledged: boolean;
+        deletedCount: number;
+    };
+};
+const deleteManyProduct = async (ids: string[]): Promise<DeleteManyResponse> => {
+    const URL_API = '/product/delete-many';
+    return await axios.delete(URL_API, { data: ids });
+};
+export { getAllProduct, createProduct, updateProduct, deleteProduct, deleteManyProduct };
