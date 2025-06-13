@@ -10,7 +10,7 @@ export type AdminProductModalProps = {
 function AdminProductModal({ title }: AdminProductModalProps) {
     return (
         <Dialog>
-            <DialogTrigger asChild className="mt-5 bg-neutral-800">
+            <DialogTrigger asChild className="bg-neutral-800">
                 <Button variant="outline" className="text-neutral-200">
                     <ListPlus />
                     {title}

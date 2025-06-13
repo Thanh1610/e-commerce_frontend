@@ -10,7 +10,7 @@ export type AdminUserModalProps = {
 function AdminUserSheet({ title }: AdminUserModalProps) {
     return (
         <Sheet>
-            <SheetTrigger asChild className="mt-5">
+            <SheetTrigger asChild>
                 <Button variant="outline" className="cursor-pointer bg-neutral-900 text-neutral-200">
                     <User />
                     {title}
