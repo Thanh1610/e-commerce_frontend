@@ -52,7 +52,7 @@ function AdminUserUpdateForm({ users }: UserInfoTableProps) {
 
             const res = await updateUser(payload);
 
-            if (res?.status === 'OK') {
+            if (res?.status === 'SUCCESS') {
                 await refreshUsers();
                 toast.success(res?.message || 'Cập nhật thành công!');
             } else {

@@ -28,7 +28,7 @@ function AdminUserDeleteModal({ open, onOpenChange, user }: Props) {
         setLoading(true);
         try {
             const res = await deleteUser({ _id: user._id });
-            if (res?.status === 'Ok') {
+            if (res?.status === 'SUCCESS') {
                 toast.success(res?.message);
                 await refreshUsers();
                 onOpenChange(false);

@@ -28,7 +28,7 @@ function AdminProductDeleteModal({ open, onOpenChange, product }: Props) {
         setLoading(true);
         try {
             const res = await deleteProduct({ _id: product._id });
-            if (res?.status === 'Ok') {
+            if (res?.status === 'SUCCESS') {
                 toast.success(res?.message);
                 await refreshProducts();
                 onOpenChange(false);

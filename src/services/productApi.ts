@@ -1,6 +1,6 @@
 import axios from '@/utils/axios.customzie';
 
-type ProductFormData = {
+export type ProductFormData = {
     name: string;
     image: string | undefined;
     type: string;
@@ -55,4 +55,25 @@ const deleteManyProduct = async (ids: string[]): Promise<DeleteManyResponse> => 
     const URL_API = '/product/delete-many';
     return await axios.delete(URL_API, { data: ids });
 };
-export { getAllProduct, createProduct, updateProduct, deleteProduct, deleteManyProduct };
+
+type SearchProductReponse = {
+    status: string;
+    message: string;
+    data: ProductFormData[];
+};
+
+type SearchProduct = {
+    name: string;
+    type: string;
+};
+
+const searchProduct = async (data: SearchProduct): Promise<SearchProductReponse> => {
+    const URL_API = '/product/search';
+    return await axios.get(URL_API, {
+        params: {
+            q: data?.name,
+            type: data?.type,
+        },
+    });
+};
+export { getAllProduct, createProduct, updateProduct, deleteProduct, deleteManyProduct, searchProduct };

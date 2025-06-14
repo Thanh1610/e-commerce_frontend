@@ -50,7 +50,7 @@ function UserInfoTable() {
 
             const res = await updateUser(payload);
 
-            if (res?.status === 'OK') {
+            if (res?.status === 'SUCCESS') {
                 const updatedUser = {
                     ...user,
                     ...data,

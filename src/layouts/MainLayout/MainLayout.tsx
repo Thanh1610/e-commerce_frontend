@@ -1,4 +1,4 @@
-import Header from '@/layouts/components/Header';
+import Header from '@/components/Header/Header';
 import type { ReactNode } from 'react';
 
 type Props = {

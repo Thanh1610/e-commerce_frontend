@@ -33,7 +33,7 @@ function RegisterForm() {
                 toast.success(res?.EM || 'Đăng kí thành công!');
                 navigate(config.routes.login);
             } else {
-                toast.error(res?.EM || 'Đăng kí thất bạ!');
+                toast.error(res?.EM || 'Đăng kí thất bại!');
             }
         } catch (error) {
             console.log(error);

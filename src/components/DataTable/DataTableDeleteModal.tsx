@@ -39,7 +39,7 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
                 res = await deleteManyProduct(selectedIds);
             }
 
-            if (res?.status === 'Ok') {
+            if (res?.status === 'SUCCESS') {
                 await refreshProducts();
                 toast.success(res?.message || 'Xóa thành công!');
                 setOpen(false);

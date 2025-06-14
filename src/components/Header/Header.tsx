@@ -1,10 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
 import ProductCategory from '@/components/ProductCategory/ProductCategory';
 import Actions from '@/components/Actions/Actions';
 import { Link } from 'react-router';
 import config from '@/config';
+import Search from '@/components/Search/Search';
 
 function Header() {
     return (
@@ -16,14 +14,7 @@ function Header() {
                 </Link>
 
                 {/* search */}
-                <div className="col-span-6 flex items-center justify-center">
-                    <div className="flex w-full max-w-sm items-center gap-2">
-                        <Input type="text" placeholder="Search..." />
-                        <Button type="submit" variant="outline">
-                            <Search />
-                        </Button>
-                    </div>
-                </div>
+                <Search />
 
                 {/* actions */}
                 <Actions />
