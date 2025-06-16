@@ -15,7 +15,7 @@ function SearchResults({ showResults, results }: SearchResultsProps) {
                     <h3 className="p-2 text-xl font-bold">Kết quả tìm kiếm</h3>
                     {results.map((item) => (
                         <Link
-                            to={config.routes.home}
+                            to={config.routes.details.replace(':slug', item?.slug || '')}
                             key={item._id}
                             className="flex transform items-center gap-3 p-2 transition-all duration-150 hover:bg-neutral-200"
                             onMouseDown={(e) => e.preventDefault()}
@@ -24,7 +24,7 @@ function SearchResults({ showResults, results }: SearchResultsProps) {
                             <div>
                                 <p className="font-semibold">{item.name}</p>
                                 <p className="text-sm text-gray-500">
-                                    {item.price.toLocaleString()}₫
+                                    {item.price.toLocaleString('vi-VN')}₫
                                     {item.oldPrice && (
                                         <span className="ml-2 text-xs text-red-500">
                                             -{Math.round(((item.oldPrice - item.price) / item.oldPrice) * 100)}%

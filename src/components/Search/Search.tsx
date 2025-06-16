@@ -30,6 +30,7 @@ function Search() {
                     type: 'less',
                 };
                 const res = await searchProduct(payload);
+
                 setResults(res?.data || []);
                 setShowResults(true);
             } catch (error) {
@@ -79,7 +80,7 @@ function Search() {
                     onClick={handleClear}
                     className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer px-1 text-2xl"
                 >
-                    {loading ? <Loader size={16} className="animate-spin" /> : <X size={16} />}
+                    {searchValue && (loading ? <Loader size={16} className="animate-spin" /> : <X size={16} />)}
                 </div>
 
                 <div className="absolute top-0 left-4 flex h-full items-center">

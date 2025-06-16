@@ -13,6 +13,7 @@ export type ProductFormData = {
     isSale?: boolean;
     token?: string;
     _id?: string;
+    slug?: string;
 };
 
 const getAllProduct = async () => {
@@ -76,4 +77,23 @@ const searchProduct = async (data: SearchProduct): Promise<SearchProductReponse>
         },
     });
 };
-export { getAllProduct, createProduct, updateProduct, deleteProduct, deleteManyProduct, searchProduct };
+
+type DetailProductReponse = {
+    status: string;
+    message: string;
+    data: ProductFormData;
+};
+
+const getDetailProductBySlug = async (slug: string): Promise<DetailProductReponse> => {
+    const URL_API = `/product/details/slug/${slug}`;
+    return await axios.get(URL_API);
+};
+export {
+    getAllProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    deleteManyProduct,
+    searchProduct,
+    getDetailProductBySlug,
+};
