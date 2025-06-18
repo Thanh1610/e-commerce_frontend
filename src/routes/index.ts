@@ -22,6 +22,8 @@ export const routes = [
         component: lazy(() => import('@/pages/NotFound/NotFoundPage')),
         layout: lazy(() => import('@/pages/NotFound/NotFoundPage')),
     },
+    { path: config.routes.type, component: lazy(() => import('@/pages/Type/TypePage')) },
+
     {
         path: config.routes.admin,
         component: lazy(() => import('@/pages/Admin/AdminPage')),

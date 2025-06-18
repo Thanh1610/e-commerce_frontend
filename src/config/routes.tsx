@@ -7,6 +7,7 @@ const routes = {
     details: '/details/:slug',
     profile: '/profile',
     admin: '/system/admin',
+    type: '/:type',
     notfound: '*',
 };
 

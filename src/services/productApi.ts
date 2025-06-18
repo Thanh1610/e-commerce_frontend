@@ -21,6 +21,25 @@ const getAllProduct = async () => {
     return await axios.get(URL_API);
 };
 
+type GetProductTypeProps = {
+    type: string;
+    sort: string;
+    order: string;
+    limit: number;
+};
+
+const getProductType = async (data: GetProductTypeProps) => {
+    const URL_API = '/product/products';
+    return await axios.get(URL_API, {
+        params: {
+            type: data?.type,
+            sort: data?.sort,
+            order: data?.order,
+            limit: data?.limit,
+        },
+    });
+};
+
 type CreateProductReponse = {
     status: string;
     message: string;
@@ -88,6 +107,11 @@ const getDetailProductBySlug = async (slug: string): Promise<DetailProductRepons
     const URL_API = `/product/details/slug/${slug}`;
     return await axios.get(URL_API);
 };
+
+const getAllType = async () => {
+    const URL_API = '/product/get-all-type';
+    return await axios.get(URL_API);
+};
 export {
     getAllProduct,
     createProduct,
@@ -96,4 +120,6 @@ export {
     deleteManyProduct,
     searchProduct,
     getDetailProductBySlug,
+    getAllType,
+    getProductType,
 };
