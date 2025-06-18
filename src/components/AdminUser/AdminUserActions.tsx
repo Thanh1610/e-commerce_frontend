@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useState } from 'react';
-import type { User } from '@/components/AdminUser/Column';
+import type { User } from '@/types/user';
 import AdminUserDeleteModal from '@/components/AdminUser/AdminUserDeleteModal';
 import AdminUserUpdateForm from '@/components/AdminUser/AdminUserUpdateForm';
 

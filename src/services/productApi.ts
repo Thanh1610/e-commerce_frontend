@@ -1,31 +1,17 @@
 import axios from '@/utils/axios.customzie';
-
-export type ProductFormData = {
-    name: string;
-    image: string | undefined;
-    type: string;
-    price: number;
-    oldPrice?: number;
-    selled?: number;
-    countInStock: number;
-    rating: number;
-    description?: string;
-    isSale?: boolean;
-    token?: string;
-    _id?: string;
-    slug?: string;
-};
+import type {
+    ProductFormData,
+    GetProductTypeProps,
+    ProductReponse,
+    DeleteProduct,
+    DeleteManyResponse,
+    SearchProductReponse,
+    SearchProduct,
+} from '@/types/product';
 
 const getAllProduct = async () => {
     const URL_API = '/product/products';
     return await axios.get(URL_API);
-};
-
-type GetProductTypeProps = {
-    type: string;
-    sort: string;
-    order: string;
-    limit: number;
 };
 
 const getProductType = async (data: GetProductTypeProps) => {
@@ -40,51 +26,24 @@ const getProductType = async (data: GetProductTypeProps) => {
     });
 };
 
-type CreateProductReponse = {
-    status: string;
-    message: string;
-    data: ProductFormData;
-};
-const createProduct = async (data: ProductFormData): Promise<CreateProductReponse> => {
+const createProduct = async (data: ProductFormData): Promise<ProductReponse> => {
     const URL_API = '/product/create';
     return await axios.post(URL_API, data);
 };
 
-const updateProduct = async (data: ProductFormData): Promise<CreateProductReponse> => {
+const updateProduct = async (data: ProductFormData): Promise<ProductReponse> => {
     const URL_API = `/product/update/${data?._id}`;
     return await axios.put(URL_API, data);
 };
 
-type DeleteProduct = {
-    _id: string;
-};
-const deleteProduct = async ({ _id }: DeleteProduct): Promise<CreateProductReponse> => {
+const deleteProduct = async ({ _id }: DeleteProduct): Promise<ProductReponse> => {
     const URL_API = `/product/delete/${_id}`;
     return await axios.delete(URL_API);
 };
 
-type DeleteManyResponse = {
-    status: string;
-    message: string;
-    data: {
-        acknowledged: boolean;
-        deletedCount: number;
-    };
-};
 const deleteManyProduct = async (ids: string[]): Promise<DeleteManyResponse> => {
     const URL_API = '/product/delete-many';
     return await axios.delete(URL_API, { data: ids });
-};
-
-type SearchProductReponse = {
-    status: string;
-    message: string;
-    data: ProductFormData[];
-};
-
-type SearchProduct = {
-    name: string;
-    type: string;
 };
 
 const searchProduct = async (data: SearchProduct): Promise<SearchProductReponse> => {
@@ -97,13 +56,7 @@ const searchProduct = async (data: SearchProduct): Promise<SearchProductReponse>
     });
 };
 
-type DetailProductReponse = {
-    status: string;
-    message: string;
-    data: ProductFormData;
-};
-
-const getDetailProductBySlug = async (slug: string): Promise<DetailProductReponse> => {
+const getDetailProductBySlug = async (slug: string): Promise<ProductReponse> => {
     const URL_API = `/product/details/slug/${slug}`;
     return await axios.get(URL_API);
 };

@@ -1,7 +1,7 @@
 import { refreshToken } from '@/services/userApi';
 import { handleDecoded } from '@/utils/helpers/handleDecoded';
 import axios from 'axios';
-import type { RefreshTokenResponse } from '@/services/userApi';
+import type { RefreshTokenResponse } from '@/types/user';
 import { store } from '@/redux/store';
 import { setUser } from '@/redux/slices/userSlice';
 

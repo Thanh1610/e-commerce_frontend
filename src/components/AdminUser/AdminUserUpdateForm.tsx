@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { getBase64 } from '@/utils/helpers/getBase64';
-import type { User } from '@/components/AdminUser/Column';
+import type { User } from '@/types/user';
 import { useUserContext } from '@/contexts/UserContext';
 
 export type InfoUserData = {

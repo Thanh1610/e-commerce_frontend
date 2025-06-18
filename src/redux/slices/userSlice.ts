@@ -1,15 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { User } from '@/types/user';
 
-export interface UserState {
-    _id: string;
-    name: string;
-    email: string;
-    phone?: string;
-    adress?: string;
-    avatar?: string;
+export interface UserState extends User {
     access_token: string;
-    isAdmin: boolean;
 }
 
 const initialState: UserState = {

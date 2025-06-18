@@ -14,6 +14,7 @@ import AdminProductUpdateForm from './AdminProductUpdateForm';
 import type { Product } from '@/pages/Home/HomePage';
 import { useState } from 'react';
 import AdminProductDeleteModal from './AdminProductDeleteModal';
+
 export interface AdminProductActionsProps {
     product: Product;
 }

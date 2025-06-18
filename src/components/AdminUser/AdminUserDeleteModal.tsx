@@ -12,7 +12,7 @@ import { deleteUser } from '@/services/userApi';
 import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { toast } from 'react-toastify';
-import type { User } from '@/components/AdminUser/Column';
+import type { User } from '@/types/user';
 import { useUserContext } from '@/contexts/UserContext';
 
 type Props = {

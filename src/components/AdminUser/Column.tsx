@@ -4,16 +4,7 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import AdminUserActions from '@/components/AdminUser/AdminUserActions';
-
-export type User = {
-    _id: string;
-    name: string;
-    email: string;
-    phone: string;
-    isAdmin: boolean;
-    adress?: string;
-    avatar?: string;
-};
+import type { User } from '@/types/user';
 
 export const columns: ColumnDef<User>[] = [
     {

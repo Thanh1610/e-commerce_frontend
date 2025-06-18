@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { User } from '@/components/AdminUser/Column';
+import type { User } from '@/types/user';
 
 import { DataTable } from '@/components/DataTable/DataTable';
 import { columns } from '@/components/AdminUser/Column';
