@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input';
 import { Search as SreachBtn, Loader, X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { searchProduct } from '@/services/productApi';
-import type { ProductFormData } from '@/services/productApi';
+import type { ProductFormData } from '@/types/product';
 import SearchResults from '@/components/Search/SearchResults/SearchResults';
 import useDebounce from '@/hooks/useDebounce';
 

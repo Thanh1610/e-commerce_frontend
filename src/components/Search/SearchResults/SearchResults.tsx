@@ -1,4 +1,4 @@
-import type { ProductFormData } from '@/services/productApi';
+import type { ProductFormData } from '@/types/product';
 import { Link } from 'react-router';
 import config from '@/config';
 

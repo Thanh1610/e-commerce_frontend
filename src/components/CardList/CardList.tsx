@@ -1,9 +1,9 @@
 import Card from '@/components/Card/Card';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 
 type CardListProps = {
     colSpan: string;
-    products: Product[];
+    products: ProductFormData[];
 };
 
 function CardList({ colSpan, products }: CardListProps) {

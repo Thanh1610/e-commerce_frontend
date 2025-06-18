@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import config from '@/config';
 import { Link } from 'react-router';
-import type { ProductFormData } from '@/services/productApi';
+import type { ProductFormData } from '@/types/product';
 
 type ProductBreadcrumbProps = {
     product: ProductFormData | null;

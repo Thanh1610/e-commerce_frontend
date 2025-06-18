@@ -5,23 +5,10 @@ import slider3 from '@/assets/images/slider3.webp';
 import Sections from '@/components/Sections/Sections';
 import { useEffect, useState } from 'react';
 import { getAllProduct } from '@/services/productApi';
-
-export type Product = {
-    _id: string;
-    name: string;
-    image: string;
-    type: string;
-    price: number;
-    oldPrice?: number;
-    selled?: number;
-    countInStock: number;
-    rating: number;
-    description?: string;
-    isSale?: boolean;
-};
+import type { ProductFormData } from '@/types/product';
 
 function HomePage() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductFormData[]>([]);
 
     useEffect(() => {
         try {

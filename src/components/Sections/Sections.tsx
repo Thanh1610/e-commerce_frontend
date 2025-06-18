@@ -1,11 +1,11 @@
 import CardList from '@/components/CardList/CardList';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 
 type SectionsProps = {
     heading?: string;
-    products: Product[];
+    products: ProductFormData[];
 };
 
 function Sections({ heading, products }: SectionsProps) {

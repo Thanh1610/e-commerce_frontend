@@ -2,14 +2,14 @@ import { DataTable } from '@/components/DataTable/DataTable';
 import { columns } from '@/components/AdminProduct/Column';
 import { useState, useEffect } from 'react';
 
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 import { getAllProduct } from '@/services/productApi';
 import { ProductContext } from '@/contexts/ProductContext';
 import AdminProductModal from '@/components/AdminProduct/AdminProductModal';
 import ExportExcel from '@/components/ExportExcel/ExportExcel';
 
 export default function AdminProduct() {
-    const [data, setData] = useState<Product[]>([]);
+    const [data, setData] = useState<ProductFormData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const fetchProducts = async () => {

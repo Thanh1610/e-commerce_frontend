@@ -1,7 +1,7 @@
 import ProductBreadcrumb from '@/components/ProductBreadcrumb/ProductBreadcrumb';
 import { Star, PackageOpen, ShieldUser } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import type { ProductFormData } from '@/services/productApi';
+import type { ProductFormData } from '@/types/product';
 import { getDetailProductBySlug } from '@/services/productApi';
 import { useParams } from 'react-router';
 import DetailActions from '@/components/DetailActions/DetailActions';

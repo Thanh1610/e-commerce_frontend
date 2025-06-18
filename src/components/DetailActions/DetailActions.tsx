@@ -3,7 +3,7 @@ import type { UserState } from '@/redux/slices/userSlice';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
-import type { ProductFormData } from '@/services/productApi';
+import type { ProductFormData } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 

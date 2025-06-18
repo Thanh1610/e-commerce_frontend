@@ -8,7 +8,8 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
+
 import { deleteProduct } from '@/services/productApi';
 import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
@@ -18,7 +19,7 @@ import { useProductContext } from '@/contexts/ProductContext';
 type Props = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    product: Product;
+    product: ProductFormData;
 };
 function AdminProductDeleteModal({ open, onOpenChange, product }: Props) {
     const [loading, setLoading] = useState<boolean>(false);
@@ -27,13 +28,15 @@ function AdminProductDeleteModal({ open, onOpenChange, product }: Props) {
     const handleSubmit = async () => {
         setLoading(true);
         try {
-            const res = await deleteProduct({ _id: product._id });
-            if (res?.status === 'SUCCESS') {
-                toast.success(res?.message);
-                await refreshProducts();
-                onOpenChange(false);
-            } else {
-                toast.error(res?.message);
+            if (product?._id) {
+                const res = await deleteProduct({ _id: product._id });
+                if (res?.status === 'SUCCESS') {
+                    toast.success(res?.message);
+                    await refreshProducts();
+                    onOpenChange(false);
+                } else {
+                    toast.error(res?.message);
+                }
             }
         } catch (error) {
             console.log(error);

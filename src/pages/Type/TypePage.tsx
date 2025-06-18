@@ -1,13 +1,14 @@
 import { getProductType } from '@/services/productApi';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
+
 import TypeSections from '@/components/TypeSection/TypeSection';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 function TypePage() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductFormData[]>([]);
     const [sort, setSort] = useState('createdAt');
     const [order, setOrder] = useState<'asc' | 'desc'>('desc');
     const [limit, setLimit] = useState(0);

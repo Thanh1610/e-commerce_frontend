@@ -1,4 +1,5 @@
 export type ProductFormData = {
+    _id?: string;
     name: string;
     image: string | undefined;
     type: string;
@@ -10,7 +11,6 @@ export type ProductFormData = {
     description?: string;
     isSale?: boolean;
     token?: string;
-    _id?: string;
     slug?: string;
 };
 

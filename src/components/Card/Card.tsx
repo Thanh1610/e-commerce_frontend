@@ -2,16 +2,16 @@ import { Card as CardUi, CardContent } from '@/components/ui/card';
 import config from '@/config';
 import { Star, Flame } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 
 type CardProps = {
-    product: Product;
+    product: ProductFormData;
 };
 
 function Card({ product }: CardProps) {
     const navigate = useNavigate();
     const handleCardClick = () => {
-        navigate(config.routes.details);
+        navigate(config.routes.details.replace(':slug', product?.slug || ''));
     };
     return (
         <CardUi className="mb-2.5 w-full cursor-pointer overflow-hidden p-0" onClick={handleCardClick}>

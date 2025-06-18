@@ -3,9 +3,9 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import AdminProductActions from './AdminProductActions';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<ProductFormData>[] = [
     {
         id: 'select',
         header: ({ table }) => (

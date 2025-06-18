@@ -11,17 +11,22 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import AdminProductUpdateForm from './AdminProductUpdateForm';
-import type { Product } from '@/pages/Home/HomePage';
+import type { ProductFormData } from '@/types/product';
 import { useState } from 'react';
 import AdminProductDeleteModal from './AdminProductDeleteModal';
 
 export interface AdminProductActionsProps {
-    product: Product;
+    product: ProductFormData;
 }
 
 function AdminProductActions({ product }: AdminProductActionsProps) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+    const handleClick = () => {
+        if (product?._id) {
+            navigator.clipboard.writeText(product._id);
+        }
+    };
     return (
         <>
             <DropdownMenu>
@@ -33,9 +38,8 @@ function AdminProductActions({ product }: AdminProductActionsProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-                    <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product._id)}>
-                        Sao chép ID
-                    </DropdownMenuItem>
+
+                    <DropdownMenuItem onClick={handleClick}>Sao chép ID</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>Sửa sản phẩm</DropdownMenuItem>
 
