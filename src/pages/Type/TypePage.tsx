@@ -1,6 +1,6 @@
 import { getProductType } from '@/services/productApi';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import type { ProductFormData } from '@/types/product';
 
 import TypeSections from '@/components/TypeSection/TypeSection';
@@ -9,10 +9,35 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 function TypePage() {
     const [products, setProducts] = useState<ProductFormData[]>([]);
-    const [sort, setSort] = useState('createdAt');
-    const [order, setOrder] = useState<'asc' | 'desc'>('desc');
-    const [limit, setLimit] = useState(0);
+    const [searchParams, setSearchParams] = useSearchParams();
     const { type } = useParams();
+
+    // Khởi tạo state từ URL params hoặc giá trị mặc định
+    const [sort, setSort] = useState(() => searchParams.get('sort') || 'createdAt');
+    const [order, setOrder] = useState<'asc' | 'desc'>(() => (searchParams.get('order') as 'asc' | 'desc') || 'desc');
+    const [limit, setLimit] = useState(() => parseInt(searchParams.get('limit') || '0'));
+
+    // Cập nhật URL khi state thay đổi
+    const updateURLParams = (newSort: string, newOrder: 'asc' | 'desc', newLimit: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('sort', newSort);
+        params.set('order', newOrder);
+        params.set('limit', newLimit.toString());
+        setSearchParams(params);
+    };
+
+    // Wrapper functions để cập nhật cả state và URL
+    const handleSortChange = (newSort: string, newOrder: 'asc' | 'desc') => {
+        setSort(newSort);
+        setOrder(newOrder);
+        updateURLParams(newSort, newOrder, limit);
+    };
+
+    const handleLimitChange: React.Dispatch<React.SetStateAction<number>> = (newLimit) => {
+        const limitValue = typeof newLimit === 'function' ? newLimit(limit) : newLimit;
+        setLimit(limitValue);
+        updateURLParams(sort, order, limitValue);
+    };
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -34,37 +59,31 @@ function TypePage() {
         fetchApi();
     }, [type, sort, order, limit]);
 
-    const handleSortChange = (value: string) => {
+    const handlePriceSortChange = (value: string) => {
         const [sortValue, orderValue] = value.split(':');
-        setSort(sortValue);
-        setOrder(orderValue as 'asc' | 'desc');
+        handleSortChange(sortValue, orderValue as 'asc' | 'desc');
     };
+
     return (
         <div className="container mx-auto my-0 max-w-screen-lg">
             <div className="mt-5 flex items-center gap-4">
                 <div>Sắp xếp theo: </div>
                 <div className="flex items-center gap-2">
                     <Button
-                        onClick={() => {
-                            setSort('createdAt');
-                            setOrder('desc');
-                        }}
-                        variant="outline"
+                        onClick={() => handleSortChange('createdAt', 'desc')}
+                        variant={sort === 'createdAt' && order === 'desc' ? 'default' : 'outline'}
                     >
                         Mới nhất
                     </Button>
 
                     <Button
-                        onClick={() => {
-                            setSort('selled');
-                            setOrder('desc');
-                        }}
-                        variant="outline"
+                        onClick={() => handleSortChange('selled', 'desc')}
+                        variant={sort === 'selled' && order === 'desc' ? 'default' : 'outline'}
                     >
                         Bán chạy
                     </Button>
 
-                    <Select onValueChange={handleSortChange}>
+                    <Select onValueChange={handlePriceSortChange}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Giá" />
                         </SelectTrigger>
@@ -77,7 +96,7 @@ function TypePage() {
                     </Select>
                 </div>
             </div>
-            <TypeSections heading={type} products={products} setLimit={setLimit} />
+            <TypeSections heading={type} products={products} setLimit={handleLimitChange} />
         </div>
     );
 }
