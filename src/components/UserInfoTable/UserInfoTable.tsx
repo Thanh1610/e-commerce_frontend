@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { RotateCw } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 import type { RootState } from '@/redux/store';
 import type { UserState } from '@/redux/slices/userSlice';
@@ -9,9 +8,9 @@ import { setUser } from '@/redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@/components/ui/button';
 
-import { updateUser } from '@/services/userApi';
 import { getBase64 } from '@/utils/helpers/getBase64';
 import UserUpdateField from '@/components/FormFields/UserUpdateField';
+import { useUpdateUser } from '@/hooks/useUpdateUser';
 
 export type InfoUserData = {
     email: string;
@@ -23,7 +22,6 @@ export type InfoUserData = {
 };
 
 function UserInfoTable() {
-    const [loading, setLoading] = useState<boolean>(false);
     const user: UserState = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     const {
@@ -34,40 +32,31 @@ function UserInfoTable() {
     } = useForm<InfoUserData>();
 
     const onSubmit = async (data: InfoUserData) => {
-        setLoading(true);
-        try {
-            let base64Avatar = undefined;
+        let base64Avatar = undefined;
 
-            if (data.avatar && data.avatar.length > 0) {
-                base64Avatar = await getBase64(data.avatar[0]);
-            }
-
-            const payload = {
-                id: user?._id,
-                ...data,
-                avatar: base64Avatar,
-            };
-
-            const res = await updateUser(payload);
-
-            if (res?.status === 'SUCCESS') {
-                const updatedUser = {
-                    ...user,
-                    ...data,
-                    avatar: res.data.avatar,
-                };
-
-                dispatch(setUser(updatedUser));
-                toast.success(res?.message || 'Cập nhật thành công!');
-            } else {
-                toast.error(res?.message || 'Cập nhật thất bại!');
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
+        if (data.avatar && data.avatar.length > 0) {
+            base64Avatar = await getBase64(data.avatar[0]);
         }
+
+        const payload = {
+            id: user?._id,
+            ...data,
+            avatar: base64Avatar,
+        };
+
+        updateMutation.mutate(payload);
     };
+
+    const updateMutation = useUpdateUser(async (resData) => {
+        const updatedUser = {
+            ...user,
+            ...resData,
+        };
+
+        dispatch(setUser(updatedUser));
+    });
+
+    const loading = updateMutation.isPending;
 
     useEffect(() => {
         if (user) {

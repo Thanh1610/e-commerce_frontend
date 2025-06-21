@@ -1,5 +1,3 @@
-import { toast } from 'react-toastify';
-import { useState } from 'react';
 import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
@@ -11,13 +9,12 @@ import { SheetContent, SheetFooter, SheetHeader, SheetTitle } from '@/components
 import type { RegisterFormData } from '@/components/FormFields/RegisterField';
 
 import { useUserContext } from '@/contexts/UserContext';
-import { registerApi } from '@/services/userApi';
 import { getBase64 } from '@/utils/helpers/getBase64';
 import TextField from '@/components/FormFields/TextField';
 import RegisterField from '@/components/FormFields/RegisterField';
+import { useRegisterUser } from '@/hooks/useRegisterUser';
 
 function AdminUserform() {
-    const [loading, setLoading] = useState<boolean>(false);
     const { refreshUsers } = useUserContext();
 
     const {
@@ -29,32 +26,26 @@ function AdminUserform() {
     } = useForm<RegisterFormData>();
 
     const onSubmit = async (data: RegisterFormData) => {
-        setLoading(true);
-        try {
-            let base64Avatar = undefined;
+        let base64Avatar = undefined;
 
-            if (data.avatar && data.avatar.length > 0) {
-                base64Avatar = await getBase64(data.avatar[0]);
-            }
-
-            const payload = {
-                ...data,
-                avatar: base64Avatar,
-            };
-            const res = await registerApi(payload);
-            if (res.EC === 0) {
-                await refreshUsers();
-                toast.success('Đăng kí thành công!');
-                reset();
-            } else {
-                toast.error('Email đã tồn tại!');
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
+        if (data.avatar && data.avatar.length > 0) {
+            base64Avatar = await getBase64(data.avatar[0]);
         }
+
+        const payload = {
+            ...data,
+            avatar: base64Avatar,
+        };
+        registerMutation.mutate(payload);
     };
+
+    const registerMutation = useRegisterUser(async () => {
+        await refreshUsers();
+        reset();
+    });
+
+    const loading = registerMutation.isPending;
+
     return (
         <SheetContent>
             <SheetHeader>
@@ -80,7 +71,7 @@ function AdminUserform() {
                 </div>
 
                 <div className="grid gap-2">
-                    <Label className='"block w-30 content-center text-left' htmlFor="avatar">
+                    <Label className="block w-30 content-center text-left" htmlFor="avatar">
                         Avatar:
                     </Label>
                     <Input id="avatar" type="file" accept="image/*" {...register('avatar')} />

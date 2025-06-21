@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import type { User } from '@/types/user';
 
 import { DataTable } from '@/components/DataTable/DataTable';
@@ -7,29 +6,22 @@ import { UserContext } from '@/contexts/UserContext';
 import { getAllUser } from '@/services/userApi';
 import AdminUserSheet from '@/components/AdminUser/AdminUserSheet';
 import ExportExcel from '@/components/ExportExcel/ExportExcel';
+import { useQuery } from '@tanstack/react-query';
 
 export default function AdminUser() {
-    const [data, setData] = useState<User[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const {
+        data: res,
+        isPending: loading,
+        refetch,
+    } = useQuery({
+        queryKey: ['users'],
+        queryFn: getAllUser,
+    });
 
-    const fetchProducts = async () => {
-        setLoading(true);
-        try {
-            const res = await getAllUser();
-            setData(res?.data || []);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    const data: User[] = res?.data || [];
 
     return (
-        <UserContext.Provider value={{ refreshUsers: fetchProducts }}>
+        <UserContext.Provider value={{ refreshUsers: refetch }}>
             <div className="w-full p-[15px]">
                 <h2 className="text-2xl font-bold">Quản lý người dùng</h2>
 

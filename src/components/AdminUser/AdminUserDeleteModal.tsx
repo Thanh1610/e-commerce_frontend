@@ -7,13 +7,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import type { User } from '@/types/user';
 import { Button } from '@/components/ui/button';
 import { deleteUser } from '@/services/userApi';
-import { useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { toast } from 'react-toastify';
-import type { User } from '@/types/user';
 import { useUserContext } from '@/contexts/UserContext';
+import { useMutation } from '@tanstack/react-query';
 
 type Props = {
     open: boolean;
@@ -21,13 +21,15 @@ type Props = {
     user: User;
 };
 function AdminUserDeleteModal({ open, onOpenChange, user }: Props) {
-    const [loading, setLoading] = useState<boolean>(false);
     const { refreshUsers } = useUserContext();
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        try {
-            const res = await deleteUser({ _id: user._id });
+    const handleSubmit = () => {
+        deleteUserMutate({ _id: user._id });
+    };
+
+    const { mutate: deleteUserMutate, isPending: loading } = useMutation({
+        mutationFn: deleteUser,
+        onSuccess: async (res) => {
             if (res?.status === 'SUCCESS') {
                 toast.success(res?.message);
                 await refreshUsers();
@@ -35,12 +37,12 @@ function AdminUserDeleteModal({ open, onOpenChange, user }: Props) {
             } else {
                 toast.error(res?.message);
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        },
+        onError: (error: any) => {
+            console.error(error);
+            toast.error('Lỗi kết nối máy chủ!');
+        },
+    });
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>

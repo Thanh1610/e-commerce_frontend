@@ -16,29 +16,28 @@ import { deleteManyUser } from '@/services/userApi';
 import { toast } from 'react-toastify';
 import { deleteManyProduct } from '@/services/productApi';
 import { useProductContext } from '@/contexts/ProductContext';
+import { useMutation } from '@tanstack/react-query';
 
 interface DeleteSelectedButtonProps<TData> {
     table: Table<TData>;
     type: 'product' | 'user';
 }
 function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<TData>) {
-    const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const { refreshProducts } = useProductContext();
 
     const handleClick = async () => {
-        setLoading(true);
-        try {
-            const selectedIds = table.getFilteredSelectedRowModel().rows.map((row) => (row.original as any)._id);
-            console.log('Selected IDs to delete:', selectedIds);
-            console.log('Selected rows:', table.getFilteredSelectedRowModel().rows);
-            let res;
-            if (type === 'user') {
-                res = await deleteManyUser(selectedIds);
-            } else if (type === 'product') {
-                res = await deleteManyProduct(selectedIds);
-            }
+        const selectedIds = table.getFilteredSelectedRowModel().rows.map((row) => (row.original as any)._id);
+        deleteManyMutation.mutate(selectedIds);
+    };
 
+    const deleteManyMutation = useMutation({
+        mutationFn: async (selectedIds: string[]) => {
+            if (type === 'user') return await deleteManyUser(selectedIds);
+            if (type === 'product') return await deleteManyProduct(selectedIds);
+            throw new Error('Unknown delete type');
+        },
+        onSuccess: async (res) => {
             if (res?.status === 'SUCCESS') {
                 await refreshProducts();
                 toast.success(res?.message || 'Xóa thành công!');
@@ -46,12 +45,14 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
             } else {
                 toast.error(res?.message || 'Xóa thất bại!');
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        },
+        onError: (error) => {
+            console.error('Delete failed:', error);
+            toast.error('Lỗi kết nối máy chủ!');
+        },
+    });
+
+    const loading = deleteManyMutation.isPending;
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>

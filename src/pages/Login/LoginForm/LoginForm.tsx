@@ -1,6 +1,5 @@
 import { CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 import { Loader } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router';
@@ -12,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/redux/slices/userSlice';
 import TextField from '@/components/FormFields/TextField';
+import { useMutation } from '@tanstack/react-query';
 
 type LoginFormData = {
     email: string;
@@ -23,7 +23,6 @@ type JwtPayload = {
 };
 
 function LoginForm() {
-    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -42,13 +41,9 @@ function LoginForm() {
         dispatch(setUser(payload));
     };
 
-    const onSubmit = async (data: LoginFormData) => {
-        setLoading(true);
-        try {
-            const { email, password } = data;
-
-            const res = await loginApi({ email, password });
-
+    const loginMutation = useMutation({
+        mutationFn: loginApi,
+        onSuccess: (res) => {
             if (res.EC === 0) {
                 toast.success('Đăng nhập thành công!');
                 localStorage.setItem('access_token', res?.access_token);
@@ -64,12 +59,18 @@ function LoginForm() {
             } else {
                 toast.error('Đăng nhập thất bại!');
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
+        },
+        onError: (error: any) => {
+            const message = error?.response?.data?.EM || 'Lỗi kết nối máy chủ!';
+            toast.error(message);
+        },
+    });
+
+    const onSubmit = (data: LoginFormData) => {
+        loginMutation.mutate(data);
     };
+
+    const loading = loginMutation.isPending;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +106,7 @@ function LoginForm() {
                                 message: 'Tối thiểu 1 ký tự',
                             },
                         }}
-                        error={errors.email}
+                        error={errors.password}
                     />
                     <div className="flex items-center">
                         <Link to="/" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
