@@ -1,14 +1,13 @@
 import { getProductType } from '@/services/productApi';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
-import type { ProductFormData } from '@/types/product';
 
 import TypeSections from '@/components/TypeSection/TypeSection';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useQuery } from '@tanstack/react-query';
 
 function TypePage() {
-    const [products, setProducts] = useState<ProductFormData[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const { type } = useParams();
 
@@ -39,25 +38,16 @@ function TypePage() {
         updateURLParams(sort, order, limitValue);
     };
 
-    useEffect(() => {
-        const fetchApi = async () => {
-            try {
-                if (type) {
-                    const payload = {
-                        type,
-                        sort,
-                        order,
-                        limit: limit,
-                    };
-                    const res = await getProductType(payload);
-                    setProducts(res?.data);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchApi();
-    }, [type, sort, order, limit]);
+    const { data: products = [] } = useQuery({
+        queryKey: ['products', type, sort, order, limit],
+        queryFn: async () => {
+            if (!type) return [];
+            const payload = { type, sort, order, limit };
+            const res = await getProductType(payload);
+            return res?.data || [];
+        },
+        enabled: !!type,
+    });
 
     const handlePriceSortChange = (value: string) => {
         const [sortValue, orderValue] = value.split(':');

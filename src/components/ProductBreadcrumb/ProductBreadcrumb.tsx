@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import type { ProductFormData } from '@/types/product';
 
 type ProductBreadcrumbProps = {
-    product: ProductFormData | null;
+    product: ProductFormData | undefined;
 };
 export default function ProductBreadcrumb({ product }: ProductBreadcrumbProps) {
     return (

@@ -9,12 +9,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import type { ProductFormData } from '@/types/product';
-
 import { deleteProduct } from '@/services/productApi';
-import { useState } from 'react';
+
 import { RotateCw } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useProductContext } from '@/contexts/ProductContext';
+import { useMutation } from '@tanstack/react-query';
 
 type Props = {
     open: boolean;
@@ -22,28 +22,32 @@ type Props = {
     product: ProductFormData;
 };
 function AdminProductDeleteModal({ open, onOpenChange, product }: Props) {
-    const [loading, setLoading] = useState<boolean>(false);
     const { refreshProducts } = useProductContext();
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        try {
-            if (product?._id) {
-                const res = await deleteProduct({ _id: product._id });
-                if (res?.status === 'SUCCESS') {
-                    toast.success(res?.message);
-                    await refreshProducts();
-                    onOpenChange(false);
-                } else {
-                    toast.error(res?.message);
-                }
+    const deleteProductMutation = useMutation({
+        mutationFn: deleteProduct,
+        onSuccess: async (res) => {
+            if (res?.status === 'SUCCESS') {
+                toast.success(res?.message);
+                await refreshProducts();
+                onOpenChange(false);
+            } else {
+                toast.error(res?.message);
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
+        },
+        onError: (error: any) => {
+            const message = error?.response?.data?.message || 'Lỗi kết nối máy chủ!';
+            toast.error(message);
+        },
+    });
+
+    const handleSubmit = async () => {
+        if (product?._id) {
+            deleteProductMutation.mutate({ _id: product._id });
         }
     };
+
+    const loading = deleteProductMutation.isPending;
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>

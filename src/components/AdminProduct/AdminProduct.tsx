@@ -1,35 +1,26 @@
 import { DataTable } from '@/components/DataTable/DataTable';
 import { columns } from '@/components/AdminProduct/Column';
-import { useState, useEffect } from 'react';
-
 import type { ProductFormData } from '@/types/product';
 import { getAllProduct } from '@/services/productApi';
 import { ProductContext } from '@/contexts/ProductContext';
 import AdminProductModal from '@/components/AdminProduct/AdminProductModal';
 import ExportExcel from '@/components/ExportExcel/ExportExcel';
+import { useQuery } from '@tanstack/react-query';
 
 export default function AdminProduct() {
-    const [data, setData] = useState<ProductFormData[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const {
+        data: res,
+        isPending: loading,
+        refetch,
+    } = useQuery({
+        queryKey: ['product'],
+        queryFn: getAllProduct,
+    });
 
-    const fetchProducts = async () => {
-        setLoading(true);
-        try {
-            const res = await getAllProduct();
-            setData(res?.data || []);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    const data: ProductFormData[] = res?.data || [];
 
     return (
-        <ProductContext.Provider value={{ refreshProducts: fetchProducts }}>
+        <ProductContext.Provider value={{ refreshProducts: refetch }}>
             <div className="w-full p-[15px]">
                 <h2 className="text-2xl font-bold">Quản lý Sản phẩm</h2>
                 <div className="mt-5 flex items-center gap-6">

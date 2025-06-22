@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 
 type DetailActionsProps = {
-    product: ProductFormData | null;
+    product: ProductFormData | undefined;
 };
 
 function DetailActions({ product }: DetailActionsProps) {

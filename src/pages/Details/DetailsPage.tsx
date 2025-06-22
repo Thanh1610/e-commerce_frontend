@@ -1,30 +1,21 @@
 import ProductBreadcrumb from '@/components/ProductBreadcrumb/ProductBreadcrumb';
 import { Star, PackageOpen, ShieldUser } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import type { ProductFormData } from '@/types/product';
 import { getDetailProductBySlug } from '@/services/productApi';
 import { useParams } from 'react-router';
 import DetailActions from '@/components/DetailActions/DetailActions';
 import DetailsImgCarousel from '@/components/DetailsImgCarousel/DetailsImgCarousel';
+import { useQuery } from '@tanstack/react-query';
 
 function DetailsPage() {
     const { slug } = useParams();
-    const [product, setProduct] = useState<ProductFormData | null>(null);
+    const query = useQuery({
+        queryKey: ['product', slug],
+        queryFn: () => getDetailProductBySlug(slug as string),
+        enabled: !!slug,
+    });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (slug) {
-                try {
-                    const res = await getDetailProductBySlug(slug);
-                    setProduct(res?.data);
-                } catch (error) {
-                    console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
-                }
-            }
-        };
-
-        fetchData();
-    }, [slug]);
+    const product: ProductFormData | undefined = query.data?.data;
 
     return (
         <div className="container mx-auto my-0 max-w-screen-lg pt-2.5">

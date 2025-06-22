@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { RotateCw } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
 
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -26,7 +27,6 @@ export type AddProductFormData = {
 };
 
 function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
-    const [loading, setLoading] = useState<boolean>(false);
     const { refreshProducts } = useProductContext();
 
     const {
@@ -38,35 +38,39 @@ function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
         formState: { errors },
     } = useForm<AddProductFormData>();
 
-    const onSubmit = async (data: AddProductFormData) => {
-        setLoading(true);
-        try {
-            let base64Avatar = undefined;
-
-            if (data.image && data.image.length > 0) {
-                base64Avatar = await getBase64(data.image[0]);
-            }
-
-            const payload = {
-                ...data,
-                image: base64Avatar,
-                _id: product?._id,
-            };
-
-            const res = await updateProduct(payload);
-
+    const updateProductMutation = useMutation({
+        mutationFn: updateProduct,
+        onSuccess: async (res) => {
             if (res?.status === 'SUCCESS') {
                 await refreshProducts();
                 toast.success(res?.message || 'Cập nhật thành công!');
             } else {
                 toast.error(res?.message || 'Cập nhật thất bại!');
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
+        },
+        onError: (error: any) => {
+            const message = error?.response?.data?.message || 'Lỗi kết nối máy chủ!';
+            toast.error(message);
+        },
+    });
+
+    const onSubmit = async (data: AddProductFormData) => {
+        let base64Avatar = undefined;
+
+        if (data.image && data.image.length > 0) {
+            base64Avatar = await getBase64(data.image[0]);
         }
+
+        const payload = {
+            ...data,
+            image: base64Avatar,
+            _id: product?._id,
+        };
+
+        updateProductMutation.mutate(payload);
     };
+
+    const loading = updateProductMutation.isPending;
 
     useEffect(() => {
         if (product) {

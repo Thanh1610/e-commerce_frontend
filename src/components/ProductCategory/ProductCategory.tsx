@@ -1,9 +1,9 @@
 import { Smartphone, Laptop, Headphones, Watch, Clock, Tablet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
 import { getAllType } from '@/services/productApi';
 import { useNavigate } from 'react-router';
 import config from '@/config';
+import { useQuery } from '@tanstack/react-query';
 
 type Keyword = {
     value: string;
@@ -20,20 +20,14 @@ const keywords: Keyword[] = [
 ];
 
 function ProductCategory() {
-    const [types, setTypes] = useState<string[]>([]);
     const navigate = useNavigate();
-    useEffect(() => {
-        const fetchApi = async () => {
-            try {
-                const res = await getAllType();
-                setTypes(res?.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
 
-        fetchApi();
-    }, []);
+    const query = useQuery({
+        queryKey: ['types'],
+        queryFn: () => getAllType(),
+    });
+
+    const types: string[] = query.data?.data ?? [];
 
     const matchedKeywords = keywords.filter((k) => types.includes(k.value));
     return (
