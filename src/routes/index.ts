@@ -4,7 +4,6 @@ import { lazy } from 'react';
 export const routes = [
     { path: config.routes.home, component: lazy(() => import('@/pages/Home/HomePage')) },
     { path: config.routes.products, component: lazy(() => import('@/pages/Products/ProductsPage')) },
-    { path: config.routes.order, component: lazy(() => import('@/pages/Order/OrderPage')) },
     {
         path: config.routes.login,
         component: lazy(() => import('@/pages/Login/LoginPage')),
@@ -23,6 +22,7 @@ export const routes = [
         layout: lazy(() => import('@/pages/NotFound/NotFoundPage')),
     },
     { path: config.routes.type, component: lazy(() => import('@/pages/Type/TypePage')) },
+    { path: config.routes.cart, component: lazy(() => import('@/pages/Cart/CartPage')) },
 
     {
         path: config.routes.admin,

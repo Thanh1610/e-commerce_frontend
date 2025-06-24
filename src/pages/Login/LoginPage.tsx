@@ -2,7 +2,7 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import LoginForm from './LoginForm/LoginForm';
+import LoginForm from '@/layouts/components/LoginForm/LoginForm';
 import { Link } from 'react-router';
 import config from '@/config';
 

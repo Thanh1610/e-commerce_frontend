@@ -1,11 +1,13 @@
 import config from '@/config';
 import type { UserState } from '@/redux/slices/userSlice';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 import type { ProductFormData } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
+import { addToCart } from '@/redux/slices/cartSlice';
+import { toast } from 'react-toastify';
 
 type DetailActionsProps = {
     product: ProductFormData | undefined;
@@ -14,8 +16,40 @@ type DetailActionsProps = {
 function DetailActions({ product }: DetailActionsProps) {
     const user: UserState = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const handleAdressClick = () => {
         navigate(config.routes.profile);
+    };
+
+    const handleAddToCartClick = () => {
+        handleAddProductToCart(() => {
+            toast.success('Thêm vào giỏ thành công!');
+        });
+    };
+
+    const handlePayClick = () => {
+        handleAddProductToCart(() => {
+            navigate(config.routes.cart);
+        });
+    };
+
+    const handleAddProductToCart = (onSuccess?: () => void) => {
+        if (!user?._id) {
+            navigate(config.routes.login, { state: location?.pathname });
+        } else {
+            dispatch(
+                addToCart({
+                    name: product?.name ?? '',
+                    amount: 1,
+                    image: product?.image ?? '',
+                    price: product?.price ?? 0,
+                    product: product?._id ?? '',
+                }),
+            );
+
+            onSuccess?.();
+        }
     };
     return (
         <div className="p-[15px]">
@@ -51,11 +85,13 @@ function DetailActions({ product }: DetailActionsProps) {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2">
-                <Button variant="outline" size="lg">
+                <Button onClick={handleAddToCartClick} variant="outline" size="lg">
                     <ShoppingCart /> Thêm vào giỏ hàng
                 </Button>
 
-                <Button size="lg">Mua ngay</Button>
+                <Button onClick={handlePayClick} size="lg">
+                    Mua ngay
+                </Button>
 
                 <Button variant="outline">Mua trả chậm 0%</Button>
             </div>

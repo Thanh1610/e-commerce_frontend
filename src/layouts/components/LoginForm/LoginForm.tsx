@@ -2,7 +2,7 @@ import { CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import config from '@/config';
@@ -25,6 +25,7 @@ type JwtPayload = {
 function LoginForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const {
         register,
@@ -47,7 +48,12 @@ function LoginForm() {
             if (res.EC === 0) {
                 toast.success('Đăng nhập thành công!');
                 localStorage.setItem('access_token', res?.access_token);
-                navigate(config.routes.home);
+
+                if (location.state) {
+                    navigate(location.state);
+                } else {
+                    navigate(config.routes.home);
+                }
 
                 if (res?.access_token) {
                     const decoded = jwtDecode<JwtPayload>(res?.access_token);

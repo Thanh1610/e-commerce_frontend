@@ -1,7 +1,7 @@
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Button } from '@/components/ui/button';
-import RegisterForm from './RegisterForm/RegisterForm';
+import RegisterForm from '@/layouts/components/RegisterForm/RegisterForm';
 import { Link } from 'react-router';
 import config from '@/config';
 import { ArrowLeft } from 'lucide-react';

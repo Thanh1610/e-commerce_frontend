@@ -8,6 +8,7 @@ const routes = {
     profile: '/profile',
     admin: '/system/admin',
     type: '/:type',
+    cart: '/cart',
     notfound: '*',
 };
 
