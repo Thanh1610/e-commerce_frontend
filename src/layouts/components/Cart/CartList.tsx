@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { CartState } from '@/redux/slices/cartSlice';
 import type { RootState } from '@/redux/store';
 import { useState } from 'react';
-import { removeMultipleFromCart } from '@/redux/slices/cartSlice';
+import { removeMultipleFromCart, setCheckedIds } from '@/redux/slices/cartSlice';
 import {
     AlertDialog,
     AlertDialogTrigger,
@@ -21,28 +21,32 @@ import {
 } from '@/components/ui/alert-dialog';
 
 function CartList() {
-    const order: CartState = useSelector((state: RootState) => state.cart);
-    const [checkedIds, setCheckedIds] = useState<string[]>([]);
+    const order: CartState = useSelector((state: RootState) => state.cart) || { cartItem: [], checkedIds: [] };
+    const checkedIds = order.checkedIds || [];
+    const cartItems = order.cartItem || [];
     const dispatch = useDispatch();
     const [openBulkDelete, setOpenBulkDelete] = useState(false);
 
-    const allChecked = checkedIds.length === order.cartItem.length;
+    const allChecked = checkedIds.length === cartItems.length;
 
     const handleToggleAll = (checked: boolean) => {
         if (checked) {
-            setCheckedIds(order.cartItem.map((item) => item.product));
+            dispatch(setCheckedIds(cartItems.map((item) => item.product)));
         } else {
-            setCheckedIds([]);
+            dispatch(setCheckedIds([]));
         }
     };
 
     const handleToggleItem = (id: string, checked: boolean) => {
-        setCheckedIds((prev) => (checked ? [...prev, id] : prev.filter((itemId) => itemId !== id)));
+        if (checked) {
+            dispatch(setCheckedIds([...checkedIds, id]));
+        } else {
+            dispatch(setCheckedIds(checkedIds.filter((itemId) => itemId !== id)));
+        }
     };
 
     const handleRemoveChecked = () => {
         dispatch(removeMultipleFromCart(checkedIds));
-        setCheckedIds([]);
         setOpenBulkDelete(false);
     };
 
@@ -57,7 +61,7 @@ function CartList() {
                             onCheckedChange={(checked) => handleToggleAll(!!checked)}
                         />
                         <label htmlFor="all" className="text-sm font-medium">
-                            Tất cả ({order?.cartItem.length} sản phẩm)
+                            Tất cả ({cartItems.length} sản phẩm)
                         </label>
                         {checkedIds.length > 0 && (
                             <AlertDialog open={openBulkDelete} onOpenChange={setOpenBulkDelete}>
@@ -93,7 +97,7 @@ function CartList() {
                 </div>
 
                 <Separator />
-                {order?.cartItem.map((item) => (
+                {cartItems.map((item) => (
                     <CartItem
                         key={item?.product}
                         cartItem={item}

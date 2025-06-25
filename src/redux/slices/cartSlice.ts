@@ -18,6 +18,7 @@ type ShippingAddress = {
 
 export type CartState = {
     cartItem: CartItems[];
+    checkedIds: string[];
     shippingAddress: ShippingAddress;
     paymentMethod: string;
     itemsPrice: number;
@@ -32,6 +33,7 @@ export type CartState = {
 };
 const initialState: CartState = {
     cartItem: [],
+    checkedIds: [],
     shippingAddress: {
         fullName: '',
         address: '',
@@ -73,6 +75,9 @@ export const cartSlice = createSlice({
         removeMultipleFromCart: (state, action: PayloadAction<string[]>) => {
             state.cartItem = state.cartItem.filter((item) => !action.payload.includes(item.product));
         },
+        setCheckedIds: (state, action: PayloadAction<string[]>) => {
+            state.checkedIds = action.payload;
+        },
         clearCart: (state) => {
             state.cartItem = [];
         },
@@ -80,6 +85,6 @@ export const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart, removeMultipleFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeMultipleFromCart, clearCart, setCheckedIds } = cartSlice.actions;
 
 export default cartSlice.reducer;
