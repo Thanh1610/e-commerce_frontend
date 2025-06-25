@@ -6,7 +6,7 @@ export type User = {
     email: string;
     phone: string;
     isAdmin: boolean;
-    adress?: string;
+    address?: string;
     avatar?: string;
 };
 
@@ -27,7 +27,7 @@ export type Register = {
     confirmPassword: string;
     name: string;
     phone: string;
-    adress?: string;
+    address?: string;
     avatar?: string;
 };
 export type RegisterResponse = {
@@ -56,7 +56,7 @@ export type RefreshTokenResponse = {
 
 export type UpdateUser = {
     id: string;
-    adress: string;
+    address: string;
     phone: string;
     name: string;
     email: string;

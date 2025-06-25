@@ -23,7 +23,7 @@ function Pay() {
     const navigate = useNavigate();
 
     const handlePayClick = () => {
-        if (!user?.adress) {
+        if (!user?.address) {
             toast.warning('Vui lòng cập nhật địa chỉ!');
             navigate(config.routes.profile);
         }

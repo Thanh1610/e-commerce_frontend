@@ -74,7 +74,7 @@ function UserUpdateField({ register, errors }: UserInputFieldsProps) {
 
             <div className="flex gap-2">
                 <TextField
-                    id="adress"
+                    id="address"
                     label="Địa chỉ"
                     type="text"
                     register={register}
@@ -84,7 +84,7 @@ function UserUpdateField({ register, errors }: UserInputFieldsProps) {
                             message: 'Tối thiểu 1 ký tự',
                         },
                     }}
-                    error={errors.adress}
+                    error={errors.address}
                     className="block w-30 content-center text-left"
                 />
             </div>

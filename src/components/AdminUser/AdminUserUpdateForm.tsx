@@ -13,7 +13,7 @@ export type InfoUserData = {
     email: string;
     name: string;
     phone: string;
-    adress: string;
+    address: string;
     avatar?: FileList;
     access_token: string;
 };
@@ -60,7 +60,7 @@ function AdminUserUpdateForm({ users }: UserInfoTableProps) {
                 name: users.name || '',
                 email: users.email || '',
                 phone: users.phone || '',
-                adress: users.adress || '',
+                address: users.address || '',
             });
         }
     }, [users, reset]);

@@ -16,7 +16,7 @@ export type InfoUserData = {
     email: string;
     name: string;
     phone: string;
-    adress: string;
+    address: string;
     avatar?: FileList;
     access_token: string;
 };
@@ -64,7 +64,7 @@ function UserInfoTable() {
                 name: user.name || '',
                 email: user.email || '',
                 phone: user.phone || '',
-                adress: user.adress || '',
+                address: user.address || '',
             });
         }
     }, [user, reset]);

@@ -56,7 +56,7 @@ function AdminUserform() {
 
                 <div className="grid gap-2">
                     <TextField
-                        id="adress"
+                        id="address"
                         label="Địa chỉ"
                         type="text"
                         register={register}
@@ -66,7 +66,7 @@ function AdminUserform() {
                                 message: 'Tối thiểu 1 ký tự',
                             },
                         }}
-                        error={errors.adress}
+                        error={errors.address}
                     />
                 </div>
 

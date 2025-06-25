@@ -75,7 +75,7 @@ export const columns: ColumnDef<User>[] = [
         header: 'Số điện thoại',
     },
     {
-        accessorKey: 'adress',
+        accessorKey: 'address',
         header: 'Địa chỉ',
     },
     {

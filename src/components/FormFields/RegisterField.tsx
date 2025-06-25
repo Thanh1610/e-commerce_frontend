@@ -9,7 +9,7 @@ export type RegisterFormData = {
     isAdmin: boolean;
     password: string;
     confirmPassword: string;
-    adress?: string;
+    address?: string;
     avatar?: FileList;
 };
 
