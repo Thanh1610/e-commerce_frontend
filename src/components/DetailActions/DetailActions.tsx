@@ -18,7 +18,7 @@ function DetailActions({ product }: DetailActionsProps) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleAdressClick = () => {
+    const handleAddressClick = () => {
         navigate(config.routes.profile);
     };
 
@@ -79,7 +79,7 @@ function DetailActions({ product }: DetailActionsProps) {
                 <h3 className="mb-5 text-xl font-medium">Thông tin vận chuyển</h3>
                 <span className="font-medium">Địa chỉ nhận hàng:</span>
                 <p className="line-clamp-2 flex w-full break-all italic hover:underline">{user?.address}</p>
-                <p className="cursor-pointer text-blue-400 hover:underline" onClick={handleAdressClick}>
+                <p className="cursor-pointer text-blue-400 hover:underline" onClick={handleAddressClick}>
                     Thay đổi ngay
                 </p>
             </div>

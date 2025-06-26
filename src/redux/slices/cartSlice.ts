@@ -13,7 +13,7 @@ type ShippingAddress = {
     fullName: string;
     address: string;
     city: string;
-    postalCode: number;
+    phone: string;
 };
 
 export type CartState = {
@@ -23,7 +23,6 @@ export type CartState = {
     paymentMethod: string;
     itemsPrice: number;
     shippingPrice: number;
-    taxPrice: number;
     totalPrice: number;
     user: string;
     isPaid: boolean;
@@ -38,12 +37,11 @@ const initialState: CartState = {
         fullName: '',
         address: '',
         city: '',
-        postalCode: 0,
+        phone: '',
     },
     paymentMethod: '',
     itemsPrice: 0,
     shippingPrice: 0,
-    taxPrice: 0,
     totalPrice: 0,
     user: '',
     isPaid: false,

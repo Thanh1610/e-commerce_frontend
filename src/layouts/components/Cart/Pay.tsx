@@ -6,11 +6,18 @@ import type { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router';
 import config from '@/config';
 import { toast } from 'react-toastify';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { useMutation } from '@tanstack/react-query';
+import { createOrder } from '@/services/cartApi';
+import { Loader2Icon } from 'lucide-react';
 
 function Pay() {
     const user = useSelector((state: RootState) => state.user);
     const checkedIds = useSelector((state: RootState) => state.cart.checkedIds);
     const cartItems = useSelector((state: RootState) => state.cart.cartItem);
+    const [paymentMethod, setPaymentMethod] = useState('cod');
     //lọc ra số sản phẩm được check
     const checkedItems = cartItems.filter((item) => checkedIds.includes(item.product));
 
@@ -22,15 +29,80 @@ function Pay() {
 
     const navigate = useNavigate();
 
+    const createOrderMutation = useMutation({
+        mutationFn: createOrder,
+        onSuccess: async (res) => {
+            if (res?.data?.status === 'SUCCESS') {
+                toast.success(res?.data?.message || 'Đặt hàng thành công!');
+            } else {
+                toast.error(res?.data?.message || 'Đặt hàng thất bại!');
+            }
+        },
+        onError: (error: any) => {
+            const message = error?.response?.data?.message || 'Lỗi kết nối máy chủ!';
+            toast.error(message);
+        },
+    });
+
     const handlePayClick = () => {
         if (!user?.address) {
             toast.warning('Vui lòng cập nhật địa chỉ!');
             navigate(config.routes.profile);
+        } else {
+            const payload = {
+                cartItem: checkedItems,
+                paymentMethod,
+                itemsPrice: subTotal,
+                shippingPrice: shippingFee,
+                totalPrice: total,
+                fullname: user?.name,
+                address: user?.address,
+                phone: user?.phone,
+                user: user?._id,
+            };
+            createOrderMutation.mutate(payload);
         }
     };
+
+    const handleAddressClick = () => {
+        navigate(config.routes.profile);
+    };
+
+    const loading = createOrderMutation.isPending;
     return (
         <Card className="w-full lg:w-80">
             <CardContent className="space-y-3 p-4 text-sm">
+                {/* Địa chỉ */}
+                <div className="mt-[15px] flex flex-col gap-2 border-b pb-[15px]">
+                    <h3 className="mb-5 text-xl font-medium">Thông tin vận chuyển</h3>
+                    <span className="font-medium">Địa chỉ nhận hàng:</span>
+                    <p className="line-clamp-2 flex w-full break-all italic hover:underline">{user?.address}</p>
+                    <p className="cursor-pointer text-blue-400 hover:underline" onClick={handleAddressClick}>
+                        Thay đổi ngay
+                    </p>
+                </div>
+
+                {/* Phương thức thanh toán */}
+                <div className="space-y-2">
+                    <h3 className="text-base font-medium">Hình thức thanh toán</h3>
+                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="cod" id="cod" />
+                            <Label htmlFor="cod" className="cursor-pointer">
+                                Tiền mặt khi nhận hàng
+                            </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="momo" id="momo" />
+                            <Label htmlFor="momo" className="cursor-pointer">
+                                Thanh toán bằng Momo
+                            </Label>
+                        </div>
+                    </RadioGroup>
+                    <Separator className="my-2" />
+                </div>
+
+                {/* Thanh toán */}
                 <div className="flex justify-between">
                     <span>Tạm tính</span>
                     <span>{subTotal.toLocaleString('vi-VN')}đ</span>
@@ -56,13 +128,20 @@ function Pay() {
                 </div>
                 <p className="text-muted-foreground text-xs">(Đã bao gồm VAT nếu có)</p>
 
-                <Button
-                    onClick={handlePayClick}
-                    className="w-full cursor-pointer bg-red-500 select-none hover:bg-red-600"
-                    disabled={checkedItems.length === 0}
-                >
-                    Mua hàng
-                </Button>
+                {loading ? (
+                    <Button disabled className="w-full cursor-pointer select-none">
+                        <Loader2Icon className="animate-spin" />
+                        Please wait
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={handlePayClick}
+                        className="w-full cursor-pointer bg-red-500 select-none hover:bg-red-600"
+                        disabled={checkedItems.length === 0}
+                    >
+                        Mua hàng
+                    </Button>
+                )}
             </CardContent>
         </Card>
     );

@@ -12,6 +12,10 @@ const axiosJwt = axios.create({
 
 axiosJwt.interceptors.request.use(
     async (config) => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
         const { decoded } = handleDecoded();
         const currentTime = Math.floor(Date.now() / 1000);
         //check token
