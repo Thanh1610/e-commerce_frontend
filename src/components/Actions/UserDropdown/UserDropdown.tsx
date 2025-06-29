@@ -6,7 +6,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { User, LogOut, RotateCw, UserPen, MonitorCog } from 'lucide-react';
+import { User, LogOut, RotateCw, UserPen, MonitorCog, History } from 'lucide-react';
 import { logoutUser } from '@/services/userApi';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/redux/slices/userSlice';
@@ -55,7 +55,13 @@ function UserDropdown({ user }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="start">
                 <DropdownMenuItem onClick={() => navigate(config.routes.profile)}>
-                    <UserPen /> Trang cá nhân
+                    <UserPen />
+                    Trang cá nhân
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={() => navigate(config.routes.orders)}>
+                    <History />
+                    Lịch sử mua hàng
                 </DropdownMenuItem>
 
                 {user.isAdmin && (

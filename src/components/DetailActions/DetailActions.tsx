@@ -93,7 +93,7 @@ function DetailActions({ product }: DetailActionsProps) {
                     Mua ngay
                 </Button>
 
-                <Button variant="outline">Mua trả chậm 0%</Button>
+                {/* <Button variant="outline">Mua trả chậm 0%</Button> */}
             </div>
         </div>
     );

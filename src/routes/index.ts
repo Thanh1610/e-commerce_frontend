@@ -23,6 +23,7 @@ export const routes = [
     },
     { path: config.routes.type, component: lazy(() => import('@/pages/Type/TypePage')) },
     { path: config.routes.cart, component: lazy(() => import('@/pages/Cart/CartPage')) },
+    { path: config.routes.orders, component: lazy(() => import('@/pages/OrderHistory/OrderHistory')) },
 
     {
         path: config.routes.admin,

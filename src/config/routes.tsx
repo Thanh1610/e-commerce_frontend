@@ -9,6 +9,7 @@ const routes = {
     admin: '/system/admin',
     type: '/:type',
     cart: '/cart',
+    orders: '/orders',
     notfound: '*',
 };
 

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router';
 import config from '@/config';
@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { useMutation } from '@tanstack/react-query';
 import { createOrder } from '@/services/cartApi';
 import { Loader2Icon } from 'lucide-react';
+import { removeMultipleFromCart } from '@/redux/slices/cartSlice';
 
 function Pay() {
     const user = useSelector((state: RootState) => state.user);
@@ -28,12 +29,15 @@ function Pay() {
     const total = subTotal - discount + tax + shippingFee;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const createOrderMutation = useMutation({
         mutationFn: createOrder,
         onSuccess: async (res) => {
             if (res?.data?.status === 'SUCCESS') {
                 toast.success(res?.data?.message || 'Đặt hàng thành công!');
+                dispatch(removeMultipleFromCart(checkedItems.map((item) => item.product)));
+                navigate(config.routes.orders);
             } else {
                 toast.error(res?.data?.message || 'Đặt hàng thất bại!');
             }
