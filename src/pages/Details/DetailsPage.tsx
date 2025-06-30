@@ -18,38 +18,48 @@ function DetailsPage() {
     const product: ProductFormData | undefined = query.data?.data;
 
     return (
-        <div className="container mx-auto my-0 max-w-screen-lg pt-2.5">
+        <div className="container mx-auto max-w-screen-lg px-4 py-6">
+            {/* Breadcrumb */}
             <ProductBreadcrumb product={product} />
-            <div className="flex w-full items-center justify-start gap-2.5">
-                <h1 className="text-xl font-bold">{product?.name}</h1>
-                <span className="text-muted-foreground text-xs">đã bán {product?.selled}</span>
-                <span className="flex cursor-pointer items-center gap-1">
-                    <Star className="text-yellow-300" size={12} />
-                    <span className="text-muted-foreground text-xs">{product?.rating}</span>
+
+            {/* Tiêu đề */}
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+                <h1 className="text-2xl font-semibold">{product?.name}</h1>
+                <span className="text-muted-foreground text-sm">Đã bán: {product?.selled}</span>
+                <span className="flex items-center gap-1 text-sm text-yellow-500">
+                    <Star size={14} />
+                    <span className="text-muted-foreground">{product?.rating}</span>
                 </span>
             </div>
 
-            <div className="grid grid-cols-12 justify-start gap-4">
-                <div className="col-span-8 w-full rounded-2xl">
-                    <div className="rounded-2xl bg-black">
+            {/* Nội dung chính */}
+            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-12">
+                {/* Cột ảnh và cam kết */}
+                <div className="space-y-6 md:col-span-8">
+                    {/* Ảnh sản phẩm */}
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
                         <DetailsImgCarousel img={product?.image} />
                     </div>
 
-                    <div className="mt-5 bg-white">
-                        <h3 className="text-xl font-medium">Cam kết</h3>
-                        <div className="mt-5 flex items-center gap-2">
-                            <PackageOpen />
-                            Sản phẩm mới (Cần thanh toán trước khi mở hộp).
+                    {/* Cam kết */}
+                    <div className="space-y-4 rounded-2xl bg-white p-4 shadow-sm">
+                        <h3 className="text-lg font-medium">Cam kết</h3>
+                        <div className="text-muted-foreground flex items-center gap-3 text-sm">
+                            <PackageOpen className="text-primary" size={18} />
+                            <span>Sản phẩm mới (Cần thanh toán trước khi mở hộp)</span>
                         </div>
-
-                        <div className="mt-4 flex items-center gap-2">
-                            <ShieldUser />
-                            Bảo hành chính hãng 1 năm tại các trung tâm bảo hành hãng{' '}
+                        <div className="text-muted-foreground flex items-center gap-3 text-sm">
+                            <ShieldUser className="text-primary" size={18} />
+                            <span>Bảo hành chính hãng 1 năm tại các trung tâm bảo hành</span>
                         </div>
                     </div>
                 </div>
-                <div className="col-span-4 rounded-2xl bg-white">
-                    <DetailActions product={product} />
+
+                {/* Cột mua hàng */}
+                <div className="md:col-span-4">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                        <DetailActions product={product} />
+                    </div>
                 </div>
             </div>
         </div>

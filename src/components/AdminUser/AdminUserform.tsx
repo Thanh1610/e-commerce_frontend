@@ -1,9 +1,7 @@
-import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { SheetContent, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 import type { RegisterFormData } from '@/components/FormFields/RegisterField';
@@ -13,6 +11,7 @@ import { getBase64 } from '@/utils/helpers/getBase64';
 import TextField from '@/components/FormFields/TextField';
 import RegisterField from '@/components/FormFields/RegisterField';
 import { useRegisterUser } from '@/hooks/useRegisterUser';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 function AdminUserform() {
     const { refreshUsers } = useUserContext();
@@ -77,14 +76,13 @@ function AdminUserform() {
                     <Input id="avatar" type="file" accept="image/*" {...register('avatar')} />
                 </div>
                 <SheetFooter>
-                    {loading ? (
-                        <Button size="sm" disabled>
-                            <Loader className="animate-spin" />
-                            Please wait
-                        </Button>
-                    ) : (
-                        <Button type="submit">Save changes</Button>
-                    )}
+                    <LoadingButton
+                        loading={loading}
+                        size="sm"
+                        type="submit"
+                        idleText="Cập nhật"
+                        loadingText="Đang xử lý..."
+                    />
                 </SheetFooter>
             </form>
         </SheetContent>

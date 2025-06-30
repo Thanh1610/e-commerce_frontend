@@ -10,6 +10,7 @@ const routes = {
     type: '/:type',
     cart: '/cart',
     orders: '/orders',
+    zaloPayment: '/paymentSuccess',
     notfound: '*',
 };
 

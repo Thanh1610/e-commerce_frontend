@@ -11,12 +11,12 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useState } from 'react';
-import { RotateCw } from 'lucide-react';
 import { deleteManyUser } from '@/services/userApi';
 import { toast } from 'react-toastify';
 import { deleteManyProduct } from '@/services/productApi';
 import { useProductContext } from '@/contexts/ProductContext';
 import { useMutation } from '@tanstack/react-query';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 interface DeleteSelectedButtonProps<TData> {
     table: Table<TData>;
@@ -70,22 +70,16 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    {loading ? (
-                        <Button size="default" disabled>
-                            <RotateCw className="animate-spin" />
-                            Please wait
-                        </Button>
-                    ) : (
-                        <Button
-                            size="default"
-                            onClick={handleClick}
-                            type="submit"
-                            className="cursor-pointer hover:bg-red-500"
-                        >
-                            Continue
-                        </Button>
-                    )}
+                    <AlertDialogCancel>Quay lại</AlertDialogCancel>
+                    <LoadingButton
+                        loading={loading}
+                        onClick={handleClick}
+                        className="hover:bg-red-500"
+                        size="default"
+                        type="submit"
+                        idleText="Xóa"
+                        loadingText="Đang xử lý..."
+                    />
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

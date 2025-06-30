@@ -40,7 +40,7 @@ function UserDropdown({ user }: Props) {
                 {loading ? (
                     <Button size="default" disabled>
                         <RotateCw className="animate-spin" />
-                        Please wait
+                        Đang xử lý...
                     </Button>
                 ) : (
                     <Button variant="outline" className="cursor-pointer">

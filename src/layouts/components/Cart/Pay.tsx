@@ -1,18 +1,18 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router';
 import config from '@/config';
 import { toast } from 'react-toastify';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
-import { Label } from '@/components/ui/label';
 import { useMutation } from '@tanstack/react-query';
 import { createOrder } from '@/services/cartApi';
-import { Loader2Icon } from 'lucide-react';
 import { removeMultipleFromCart } from '@/redux/slices/cartSlice';
+import { createZaloOrder } from '@/services/zaloPayment';
+import ShippingInfo from './ShippingInfo';
+import PaymentMethodSelector from './PaymentMethodSelector';
+import OrderSummary from './OrderSummary';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 function Pay() {
     const user = useSelector((state: RootState) => state.user);
@@ -48,104 +48,77 @@ function Pay() {
         },
     });
 
+    const zaloPayMutation = useMutation({
+        mutationFn: () => createZaloOrder(total),
+        onSuccess: (res) => {
+            if (res?.return_code === 1 && res.order_url) {
+                window.location.href = res.order_url; // Chuyển hướng người dùng sang ZaloPay
+            } else {
+                toast.error('Không tạo được đơn hàng ZaloPay');
+            }
+        },
+        onError: () => {
+            toast.error('Lỗi kết nối ZaloPay');
+        },
+    });
+
     const handlePayClick = () => {
         if (!user?.address) {
             toast.warning('Vui lòng cập nhật địa chỉ!');
             navigate(config.routes.profile);
-        } else {
-            const payload = {
-                cartItem: checkedItems,
-                paymentMethod,
-                itemsPrice: subTotal,
-                shippingPrice: shippingFee,
-                totalPrice: total,
-                fullname: user?.name,
-                address: user?.address,
-                phone: user?.phone,
-                user: user?._id,
-            };
-            createOrderMutation.mutate(payload);
+            return;
         }
-    };
 
-    const handleAddressClick = () => {
-        navigate(config.routes.profile);
+        const payload = {
+            cartItem: checkedItems,
+            paymentMethod,
+            itemsPrice: subTotal,
+            shippingPrice: shippingFee,
+            totalPrice: total,
+            fullname: user?.name,
+            address: user?.address,
+            phone: user?.phone,
+            user: user?._id,
+        };
+
+        if (paymentMethod === 'zalopay') {
+            localStorage.setItem('zalo_order_payload', JSON.stringify(payload));
+            zaloPayMutation.mutate();
+            return;
+        }
+
+        createOrderMutation.mutate(payload);
     };
 
     const loading = createOrderMutation.isPending;
     return (
-        <Card className="w-full lg:w-80">
+        <Card className="w-full xl:w-80">
             <CardContent className="space-y-3 p-4 text-sm">
                 {/* Địa chỉ */}
-                <div className="mt-[15px] flex flex-col gap-2 border-b pb-[15px]">
-                    <h3 className="mb-5 text-xl font-medium">Thông tin vận chuyển</h3>
-                    <span className="font-medium">Địa chỉ nhận hàng:</span>
-                    <p className="line-clamp-2 flex w-full break-all italic hover:underline">{user?.address}</p>
-                    <p className="cursor-pointer text-blue-400 hover:underline" onClick={handleAddressClick}>
-                        Thay đổi ngay
-                    </p>
-                </div>
+                <ShippingInfo address={user?.address} />
 
                 {/* Phương thức thanh toán */}
-                <div className="space-y-2">
-                    <h3 className="text-base font-medium">Hình thức thanh toán</h3>
-                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-1">
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="cod" id="cod" />
-                            <Label htmlFor="cod" className="cursor-pointer">
-                                Tiền mặt khi nhận hàng
-                            </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="momo" id="momo" />
-                            <Label htmlFor="momo" className="cursor-pointer">
-                                Thanh toán bằng Momo
-                            </Label>
-                        </div>
-                    </RadioGroup>
-                    <Separator className="my-2" />
-                </div>
+                <PaymentMethodSelector value={paymentMethod} onValueChange={setPaymentMethod} />
 
                 {/* Thanh toán */}
-                <div className="flex justify-between">
-                    <span>Tạm tính</span>
-                    <span>{subTotal.toLocaleString('vi-VN')}đ</span>
-                </div>
-                <div className="flex justify-between">
-                    <span>Giảm giá</span>
-                    <span>{discount.toLocaleString('vi-VN')}đ</span>
-                </div>
-                <div className="flex justify-between">
-                    <span>Thuế</span>
-                    <span>{tax.toLocaleString('vi-VN')}đ</span>
-                </div>
-                <div className="flex justify-between">
-                    <span>Phí giao hàng</span>
-                    <span>{shippingFee.toLocaleString('vi-VN')}đ</span>
-                </div>
+                <OrderSummary
+                    subTotal={subTotal}
+                    discount={discount}
+                    tax={tax}
+                    shippingFee={shippingFee}
+                    total={total}
+                />
 
-                <Separator className="my-2" />
-
-                <div className="flex justify-between text-lg font-semibold text-red-600">
-                    <span>Tổng tiền</span>
-                    <span>{total.toLocaleString('vi-VN')}đ</span>
-                </div>
-                <p className="text-muted-foreground text-xs">(Đã bao gồm VAT nếu có)</p>
-
-                {loading ? (
-                    <Button disabled className="w-full cursor-pointer select-none">
-                        <Loader2Icon className="animate-spin" />
-                        Please wait
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={handlePayClick}
-                        className="w-full cursor-pointer bg-red-500 select-none hover:bg-red-600"
-                        disabled={checkedItems.length === 0}
-                    >
-                        Mua hàng
-                    </Button>
-                )}
+                <LoadingButton
+                    loading={loading}
+                    onClick={handlePayClick}
+                    disabled={checkedItems.length === 0}
+                    className="w-full cursor-pointer select-none"
+                    variant="destructive"
+                    size="default"
+                    idleText="Mua hàng"
+                    loadingText="Đang xử lý..."
+                />
             </CardContent>
         </Card>
     );

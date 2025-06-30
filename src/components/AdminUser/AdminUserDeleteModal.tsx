@@ -8,12 +8,11 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import type { User } from '@/types/user';
-import { Button } from '@/components/ui/button';
 import { deleteUser } from '@/services/userApi';
-import { RotateCw } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useUserContext } from '@/contexts/UserContext';
 import { useMutation } from '@tanstack/react-query';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 type Props = {
     open: boolean;
@@ -55,22 +54,16 @@ function AdminUserDeleteModal({ open, onOpenChange, user }: Props) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-                    {loading ? (
-                        <Button size="default" disabled>
-                            <RotateCw className="animate-spin" />
-                            Please wait
-                        </Button>
-                    ) : (
-                        <Button
-                            size="default"
-                            onClick={handleSubmit}
-                            type="submit"
-                            className="cursor-pointer hover:bg-red-500"
-                        >
-                            Continue
-                        </Button>
-                    )}
+                    <AlertDialogCancel className="cursor-pointer">Quay lại</AlertDialogCancel>
+                    <LoadingButton
+                        loading={loading}
+                        onClick={handleSubmit}
+                        className="cursor-pointer hover:bg-red-500"
+                        size="default"
+                        type="submit"
+                        idleText="Xóa"
+                        loadingText="Đang xử lý..."
+                    />
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

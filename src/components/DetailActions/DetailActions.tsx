@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { addToCart } from '@/redux/slices/cartSlice';
 import { toast } from 'react-toastify';
+import ShippingInfo from '@/layouts/components/Cart/ShippingInfo';
 
 type DetailActionsProps = {
     product: ProductFormData | undefined;
@@ -17,10 +18,6 @@ function DetailActions({ product }: DetailActionsProps) {
     const user: UserState = useSelector((state: RootState) => state.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const handleAddressClick = () => {
-        navigate(config.routes.profile);
-    };
 
     const handleAddToCartClick = () => {
         handleAddProductToCart(() => {
@@ -52,48 +49,39 @@ function DetailActions({ product }: DetailActionsProps) {
         }
     };
     return (
-        <div className="p-[15px]">
+        <div className="space-y-4 p-4">
+            {/* Box giá ưu đãi */}
             <div
-                className="h-30 w-full rounded-xl p-2"
+                className="relative h-28 w-full rounded-xl bg-cover bg-center p-4 text-white shadow-sm"
                 style={{ backgroundImage: "url('https://i.postimg.cc/9zGdHKtQ/olgr-dt-min.png')" }}
             >
-                <p className="pt-1 text-2xl font-semibold text-white">Giá ưu đãi</p>
-                <div className="flex flex-col gap-0.5 pt-1">
-                    <span className="text-[16px] font-semibold text-yellow-300">
-                        {product?.price.toLocaleString('vi-VN')}₫
-                    </span>
-                    <div className="text-white">
-                        <span className="text-xs line-through">{product?.oldPrice?.toLocaleString('vi-VN')}₫</span>
-                        <span className="ml-1 text-xs">
-                            {product?.oldPrice && (
-                                <span className="ml-2 text-xs text-neutral-200">
-                                    -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
-                                </span>
-                            )}
-                        </span>
+                <p className="text-lg font-semibold">Giá ưu đãi</p>
+                <div className="mt-2">
+                    <p className="text-2xl font-bold text-yellow-300">{product?.price.toLocaleString('vi-VN')}₫</p>
+                    <div className="text-sm text-white">
+                        <span className="line-through opacity-80">{product?.oldPrice?.toLocaleString('vi-VN')}₫</span>
+                        {product?.oldPrice && (
+                            <span className="ml-2 text-neutral-200">
+                                -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <div className="mt-[15px] flex flex-col gap-2 border-b pb-[15px]">
-                <h3 className="mb-5 text-xl font-medium">Thông tin vận chuyển</h3>
-                <span className="font-medium">Địa chỉ nhận hàng:</span>
-                <p className="line-clamp-2 flex w-full break-all italic hover:underline">{user?.address}</p>
-                <p className="cursor-pointer text-blue-400 hover:underline" onClick={handleAddressClick}>
-                    Thay đổi ngay
-                </p>
-            </div>
+            {/* Thông tin giao hàng */}
+            <ShippingInfo address={user?.address} />
 
-            <div className="mt-5 flex flex-wrap gap-2">
-                <Button onClick={handleAddToCartClick} variant="outline" size="lg">
-                    <ShoppingCart /> Thêm vào giỏ hàng
+            {/* Nút hành động */}
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                <Button onClick={handleAddToCartClick} variant="outline" size="lg" className="w-full sm:w-auto">
+                    <ShoppingCart className="mr-2 h-5 w-5" />
+                    Thêm vào giỏ
                 </Button>
 
-                <Button onClick={handlePayClick} size="lg">
+                <Button onClick={handlePayClick} size="lg" className="w-full bg-red-500 hover:bg-red-600 sm:w-auto">
                     Mua ngay
                 </Button>
-
-                {/* <Button variant="outline">Mua trả chậm 0%</Button> */}
             </div>
         </div>
     );

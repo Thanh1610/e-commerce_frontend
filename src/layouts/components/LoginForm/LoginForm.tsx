@@ -1,6 +1,4 @@
 import { CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Loader } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link, useLocation } from 'react-router';
 import { useForm } from 'react-hook-form';
@@ -12,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '@/redux/slices/userSlice';
 import TextField from '@/components/FormFields/TextField';
 import { useMutation } from '@tanstack/react-query';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 type LoginFormData = {
     email: string;
@@ -122,16 +121,14 @@ function LoginForm() {
                 </div>
             </div>
             <CardFooter className="mt-3 flex-col">
-                {!loading ? (
-                    <Button type="submit" className="w-full">
-                        Đăng nhập
-                    </Button>
-                ) : (
-                    <Button size="sm" disabled>
-                        <Loader className="animate-spin" />
-                        Please wait
-                    </Button>
-                )}
+                <LoadingButton
+                    loading={loading}
+                    className="w-full"
+                    size="sm"
+                    type="submit"
+                    idleText="Đăng nhập"
+                    loadingText="Đang xử lý..."
+                />
             </CardFooter>
         </form>
     );

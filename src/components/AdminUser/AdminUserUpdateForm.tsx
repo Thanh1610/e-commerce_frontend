@@ -1,13 +1,12 @@
 import { useForm } from 'react-hook-form';
 import UserUpdateField from '../FormFields/UserUpdateField';
 
-import { Button } from '@/components/ui/button';
 import { useEffect } from 'react';
-import { RotateCw } from 'lucide-react';
 import { getBase64 } from '@/utils/helpers/getBase64';
 import type { User } from '@/types/user';
 import { useUserContext } from '@/contexts/UserContext';
 import { useUpdateUser } from '@/hooks/useUpdateUser';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 export type InfoUserData = {
     email: string;
@@ -70,16 +69,13 @@ function AdminUserUpdateForm({ users }: UserInfoTableProps) {
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-2">
                 <UserUpdateField register={register} errors={errors} />
                 <div className="mt-5 flex items-center justify-center">
-                    {loading ? (
-                        <Button size="default" disabled>
-                            <RotateCw className="animate-spin" />
-                            Please wait
-                        </Button>
-                    ) : (
-                        <Button className="cursor-pointer" type="submit">
-                            Cập nhật
-                        </Button>
-                    )}
+                    <LoadingButton
+                        loading={loading}
+                        size="default"
+                        type="submit"
+                        idleText="Cập nhật"
+                        loadingText="Đang xử lý..."
+                    />
                 </div>
             </form>
         </div>

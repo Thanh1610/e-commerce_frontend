@@ -1,14 +1,13 @@
-import { Loader } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 import type { RegisterFormData } from '@/components/FormFields/RegisterField';
 
 import { CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import RegisterField from '@/components/FormFields/RegisterField';
 import config from '@/config';
 import { useRegisterUser } from '@/hooks/useRegisterUser';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 function RegisterForm() {
     const navigate = useNavigate();
@@ -45,16 +44,14 @@ function RegisterForm() {
                 <RegisterField register={register} errors={errors} watch={watch} />
             </div>
             <CardFooter className="mt-6 flex-col">
-                {!loading ? (
-                    <Button type="submit" className="w-full">
-                        Đăng ký
-                    </Button>
-                ) : (
-                    <Button size="sm" disabled>
-                        <Loader className="animate-spin" />
-                        Please wait
-                    </Button>
-                )}
+                <LoadingButton
+                    loading={loading}
+                    className="w-full"
+                    size="sm"
+                    type="submit"
+                    idleText="Đăng ký"
+                    loadingText="Đang xử lý..."
+                />
             </CardFooter>
         </form>
     );

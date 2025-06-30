@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
-import { RotateCw } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -12,6 +11,7 @@ import { getBase64 } from '@/utils/helpers/getBase64';
 import { updateProduct } from '@/services/productApi';
 import { useProductContext } from '@/contexts/ProductContext';
 import ProductUpdateField from '@/components/FormFields/ProductUpdateField';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 export type AddProductFormData = {
     name: string;
@@ -97,17 +97,16 @@ function AdminProductUpdateForm({ product }: AdminProductActionsProps) {
 
             <DialogFooter className="mt-4">
                 <DialogClose asChild>
-                    <Button variant="outline">Cancel</Button>
+                    <Button variant="outline">Quay lại</Button>
                 </DialogClose>
 
-                {loading ? (
-                    <Button size="default" disabled>
-                        <RotateCw className="animate-spin" />
-                        Please wait
-                    </Button>
-                ) : (
-                    <Button type="submit">Save changes</Button>
-                )}
+                <LoadingButton
+                    loading={loading}
+                    size="default"
+                    type="submit"
+                    idleText="Cập nhật"
+                    loadingText="Đang xử lý..."
+                />
             </DialogFooter>
         </form>
     );

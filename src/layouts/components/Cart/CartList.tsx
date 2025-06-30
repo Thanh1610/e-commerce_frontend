@@ -1,12 +1,11 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { Trash2 } from 'lucide-react';
 import CartItem from '@/layouts/components/Cart/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
 import type { CartState } from '@/redux/slices/cartSlice';
 import type { RootState } from '@/redux/store';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { removeMultipleFromCart, setCheckedIds } from '@/redux/slices/cartSlice';
 import {
     AlertDialog,
@@ -50,6 +49,13 @@ function CartList() {
         setOpenBulkDelete(false);
     };
 
+    useEffect(() => {
+        // Khi unmount, reset checkedIds
+        return () => {
+            dispatch(setCheckedIds([]));
+        };
+    }, [dispatch]);
+
     return (
         <Card className="flex-1">
             <CardContent className="space-y-4 p-4">
@@ -90,9 +96,7 @@ function CartList() {
                         <span>Đơn giá</span>
                         <span>Số lượng</span>
                         <span>Thành tiền</span>
-                        <span>
-                            <Trash2 size={16} className="mx-auto" />
-                        </span>
+                        <span></span>
                     </div>
                 </div>
 

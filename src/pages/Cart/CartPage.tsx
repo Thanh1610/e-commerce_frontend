@@ -19,12 +19,16 @@ function CartPage() {
         <div className="mx-auto max-w-7xl p-4 md:p-8">
             <h1 className="mb-6 text-xl font-semibold">Giỏ hàng</h1>
 
-            <div className="flex flex-col gap-6 lg:flex-row">
+            <div className="flex flex-col gap-6 xl:flex-row">
                 {/* Cart List */}
-                <CartList />
+                <div className="max-h-[600px] overflow-x-hidden overflow-y-auto">
+                    <CartList />
+                </div>
 
                 {/* Pay */}
-                <Pay />
+                <div className="w-full self-start xl:w-auto">
+                    <Pay />
+                </div>
             </div>
         </div>
     );

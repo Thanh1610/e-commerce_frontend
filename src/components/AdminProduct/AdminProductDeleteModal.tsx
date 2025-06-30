@@ -7,14 +7,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import type { ProductFormData } from '@/types/product';
 import { deleteProduct } from '@/services/productApi';
 
-import { RotateCw } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useProductContext } from '@/contexts/ProductContext';
 import { useMutation } from '@tanstack/react-query';
+import LoadingButton from '@/components/LoadingButton/LoadingButton';
 
 type Props = {
     open: boolean;
@@ -60,22 +59,17 @@ function AdminProductDeleteModal({ open, onOpenChange, product }: Props) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-                    {loading ? (
-                        <Button size="default" disabled>
-                            <RotateCw className="animate-spin" />
-                            Please wait
-                        </Button>
-                    ) : (
-                        <Button
-                            size="default"
-                            onClick={handleSubmit}
-                            type="submit"
-                            className="cursor-pointer hover:bg-red-500"
-                        >
-                            Continue
-                        </Button>
-                    )}
+                    <AlertDialogCancel className="cursor-pointer">Quay lại</AlertDialogCancel>
+
+                    <LoadingButton
+                        loading={loading}
+                        onClick={handleSubmit}
+                        className="cursor-pointer select-none hover:bg-red-500"
+                        size="default"
+                        type="submit"
+                        idleText="Xóa"
+                        loadingText="Đang xử lý..."
+                    />
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
