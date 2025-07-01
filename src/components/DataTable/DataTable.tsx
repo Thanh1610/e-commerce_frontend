@@ -18,7 +18,8 @@ import {
 import type { SortingState, ColumnDef, ColumnFiltersState, VisibilityState } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChevronDown } from 'lucide-react';
-import DataTableDeleteModal from './DataTableDeleteModal';
+import DataTableDeleteProductModal from './DataTableDeleteProductModal';
+import DataTableDeleteUserModal from './DataTableDeleteUserModal';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -102,9 +103,13 @@ export function DataTable<TData, TValue>({ columns, data, type }: DataTableProps
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-                        <DataTableDeleteModal table={table} type={type} />
-                    ) : (
+                    {type === 'product' && table.getFilteredSelectedRowModel().rows.length > 0 && (
+                        <DataTableDeleteProductModal table={table} onResetSelection={() => setRowSelection({})} />
+                    )}
+                    {type === 'user' && table.getFilteredSelectedRowModel().rows.length > 0 && (
+                        <DataTableDeleteUserModal table={table} onResetSelection={() => setRowSelection({})} />
+                    )}
+                    {type !== 'product' && type !== 'user' && (
                         <Button
                             size="sm"
                             disabled

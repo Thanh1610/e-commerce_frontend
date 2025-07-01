@@ -11,20 +11,19 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useState } from 'react';
-import { deleteManyUser } from '@/services/userApi';
-import { toast } from 'react-toastify';
 import { deleteManyProduct } from '@/services/productApi';
 import { useProductContext } from '@/contexts/ProductContext';
 import { useMutation } from '@tanstack/react-query';
 import LoadingButton from '@/components/LoadingButton/LoadingButton';
+import { toast } from 'react-toastify';
 
 interface DeleteSelectedButtonProps<TData> {
     table: Table<TData>;
-    type: 'product' | 'user';
+    onResetSelection: () => void;
 }
-function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<TData>) {
+function DataTableDeleteProductModal<TData>({ table, onResetSelection }: DeleteSelectedButtonProps<TData>) {
     const [open, setOpen] = useState<boolean>(false);
-    // const { refreshProducts } = useProductContext();
+    const { refreshProducts } = useProductContext();
 
     const handleClick = async () => {
         const selectedIds = table.getFilteredSelectedRowModel().rows.map((row) => (row.original as any)._id);
@@ -32,23 +31,16 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
     };
 
     const deleteManyMutation = useMutation({
-        mutationFn: async (selectedIds: string[]) => {
-            if (type === 'user') return await deleteManyUser(selectedIds);
-            if (type === 'product') return await deleteManyProduct(selectedIds);
-            throw new Error('Unknown delete type');
-        },
+        mutationFn: async (selectedIds: string[]) => await deleteManyProduct(selectedIds),
         onSuccess: async (res) => {
             if (res?.status === 'SUCCESS') {
-                // await refreshProducts();
+                await refreshProducts();
                 toast.success(res?.message || 'Xóa thành công!');
                 setOpen(false);
+                onResetSelection();
             } else {
                 toast.error(res?.message || 'Xóa thất bại!');
             }
-        },
-        onError: (error) => {
-            console.error('Delete failed:', error);
-            toast.error('Lỗi kết nối máy chủ!');
         },
     });
 
@@ -65,8 +57,8 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
                 <AlertDialogHeader>
                     <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn tài khoản hoặc sản phẩm của bạn
-                        khỏi máy chủ của chúng tôi.
+                        Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn sản phẩm khỏi máy chủ của chúng
+                        tôi.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -86,4 +78,4 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
     );
 }
 
-export default DataTableDeleteModal;
+export default DataTableDeleteProductModal;
