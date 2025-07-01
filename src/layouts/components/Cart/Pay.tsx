@@ -79,6 +79,7 @@ function Pay() {
             address: user?.address,
             phone: user?.phone,
             user: user?._id,
+            email: user?.email,
         };
 
         if (paymentMethod === 'zalopay') {
