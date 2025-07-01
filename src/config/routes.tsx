@@ -4,7 +4,7 @@ const routes = {
     order: '/order',
     login: '/login',
     register: '/register',
-    details: '/details/:slug',
+    details: '/details/:id',
     profile: '/profile',
     admin: '/system/admin',
     type: '/:type',

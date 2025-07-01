@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import config from '@/config';
+import { useNavigate } from 'react-router';
 
 interface Props {
     order: Order;
@@ -25,7 +27,7 @@ interface Props {
 
 function OrderCard({ order, refetch }: Props) {
     const [openDeleteDialogs, setOpenDeleteDialogs] = useState<Record<string, boolean>>({});
-
+    const navigate = useNavigate();
     const cancelOrderMutation = useMutation({
         mutationFn: (id: string) => deleteOrder(id),
         onSuccess: (res, id) => {
@@ -98,9 +100,13 @@ function OrderCard({ order, refetch }: Props) {
                     <ul className="space-y-1 text-sm text-gray-700">
                         {order.cartItem.map((item) => (
                             <li key={item.product} className="flex justify-between">
-                                <span>
+                                <Button
+                                    onClick={() => navigate(config.routes.details.replace(':id', item.product))}
+                                    variant="link"
+                                    className="text-sm italic"
+                                >
                                     {item.name} × {item.amount}
-                                </span>
+                                </Button>
                                 <span>{item.price.toLocaleString('vi-VN')}đ</span>
                             </li>
                         ))}

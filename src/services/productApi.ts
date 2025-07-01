@@ -56,8 +56,13 @@ const searchProduct = async (data: SearchProduct): Promise<SearchProductReponse>
     });
 };
 
-const getDetailProductBySlug = async (slug: string): Promise<ProductReponse> => {
-    const URL_API = `/product/details/slug/${slug}`;
+// const getDetailProductBySlug = async (slug: string): Promise<ProductReponse> => {
+//     const URL_API = `/product/details/slug/${slug}`;
+//     return await axios.get(URL_API);
+// };
+
+const getDetailProduct = async (id: string): Promise<ProductReponse> => {
+    const URL_API = `/product/details/${id}`;
     return await axios.get(URL_API);
 };
 
@@ -72,7 +77,8 @@ export {
     deleteProduct,
     deleteManyProduct,
     searchProduct,
-    getDetailProductBySlug,
+    // getDetailProductBySlug,
     getAllType,
     getProductType,
+    getDetailProduct,
 };

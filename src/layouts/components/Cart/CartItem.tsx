@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import DeleteCartDialogContent from './DeleteCartDialogContent';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Separator } from '@/components/ui/separator';
+import { useNavigate } from 'react-router';
+import config from '@/config';
 
 type CartItemProps = {
     cartItem: CartItems;
@@ -18,6 +20,7 @@ function CartItem({ cartItem, checked, onCheckedChange }: CartItemProps) {
     const [quantity, setQuantity] = useState(cartItem?.amount);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleQuantityChange = (newQuantity: number) => {
         if (!cartItem?.product) return;
@@ -36,6 +39,10 @@ function CartItem({ cartItem, checked, onCheckedChange }: CartItemProps) {
 
     const subtotal = quantity * cartItem.price;
 
+    const handleNavigate = () => {
+        navigate(config.routes.details.replace(':id', cartItem?.product));
+    };
+
     return (
         <>
             <AlertDialog open={open} onOpenChange={setOpen}>
@@ -44,11 +51,14 @@ function CartItem({ cartItem, checked, onCheckedChange }: CartItemProps) {
                     <div className="flex flex-1 items-center gap-4">
                         <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
                         <img
+                            onClick={handleNavigate}
                             src={cartItem.image}
                             alt={cartItem.name}
-                            className="h-16 w-16 rounded border object-cover"
+                            className="h-16 w-16 rounded border object-cover select-none"
                         />
-                        <p className="text-sm font-medium">{cartItem.name}</p>
+                        <p onClick={handleNavigate} className="text-sm font-medium hover:underline">
+                            {cartItem.name}
+                        </p>
                     </div>
 
                     {/* Giá - Số lượng - Thành tiền */}

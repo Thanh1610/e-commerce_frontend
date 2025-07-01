@@ -73,7 +73,7 @@ function DetailActions({ product }: DetailActionsProps) {
             <ShippingInfo address={user?.address} />
 
             {/* Nút hành động */}
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <div className="mt-4 flex flex-col gap-2 lg:flex-row">
                 <Button onClick={handleAddToCartClick} variant="outline" size="lg" className="w-full sm:w-auto">
                     <ShoppingCart className="mr-2 h-5 w-5" />
                     Thêm vào giỏ

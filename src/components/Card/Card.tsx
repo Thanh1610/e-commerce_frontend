@@ -11,7 +11,7 @@ type CardProps = {
 function Card({ product }: CardProps) {
     const navigate = useNavigate();
     const handleCardClick = () => {
-        navigate(config.routes.details.replace(':slug', product?.slug || ''));
+        navigate(config.routes.details.replace(':id', product?._id || ''));
     };
     return (
         <CardUi className="mb-2.5 w-full cursor-pointer overflow-hidden p-0" onClick={handleCardClick}>

@@ -1,18 +1,18 @@
 import ProductBreadcrumb from '@/components/ProductBreadcrumb/ProductBreadcrumb';
 import { Star, PackageOpen, ShieldUser } from 'lucide-react';
 import type { ProductFormData } from '@/types/product';
-import { getDetailProductBySlug } from '@/services/productApi';
+import { getDetailProduct } from '@/services/productApi';
 import { useParams } from 'react-router';
 import DetailActions from '@/components/DetailActions/DetailActions';
 import DetailsImgCarousel from '@/components/DetailsImgCarousel/DetailsImgCarousel';
 import { useQuery } from '@tanstack/react-query';
 
 function DetailsPage() {
-    const { slug } = useParams();
+    const { id } = useParams();
     const query = useQuery({
-        queryKey: ['product', slug],
-        queryFn: () => getDetailProductBySlug(slug as string),
-        enabled: !!slug,
+        queryKey: ['product', id],
+        queryFn: () => getDetailProduct(id as string),
+        enabled: !!id,
     });
 
     const product: ProductFormData | undefined = query.data?.data;
@@ -37,7 +37,7 @@ function DetailsPage() {
                 {/* Cột ảnh và cam kết */}
                 <div className="space-y-6 md:col-span-8">
                     {/* Ảnh sản phẩm */}
-                    <div className="rounded-2xl bg-white p-4 shadow-sm">
+                    <div className="rounded-2xl bg-white p-4 shadow-sm select-none">
                         <DetailsImgCarousel img={product?.image} />
                     </div>
 
