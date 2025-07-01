@@ -32,6 +32,7 @@ function Card({ product }: CardProps) {
                 </div>
 
                 <div className="mt-1 flex flex-col gap-1">
+                    <span className="text-muted-foreground text-xs">còn lại: {product?.countInStock} sản phẩm</span>
                     <span className="text-[16px] font-semibold text-red-500">
                         {product.price.toLocaleString('vi-VN')}₫
                     </span>

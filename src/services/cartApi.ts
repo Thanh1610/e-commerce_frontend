@@ -50,6 +50,12 @@ export type DeleteOrderResponse = {
     data: Order;
 };
 
+export type getAllOrderResponse = {
+    status: string;
+    message: string;
+    data: Order;
+};
+
 const createOrder = async (data: CreateOrder): Promise<CreateOrderResponse> => {
     const URL_API = '/cart/create-order';
     return await axiosJwt.post(URL_API, data);
@@ -64,4 +70,9 @@ const deleteOrder = async (userId: string): Promise<DeleteOrderResponse> => {
     return await axios.delete(`/cart/delete-order/${userId}`);
 };
 
-export { createOrder, getOrders, deleteOrder };
+const getAllOrder = async (): Promise<getAllOrderResponse> => {
+    const res = await axiosJwt.get(`/cart/get-all-order`);
+    return res.data;
+};
+
+export { createOrder, getOrders, deleteOrder, getAllOrder };

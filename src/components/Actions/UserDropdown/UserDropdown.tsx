@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import config from '@/config';
 import type { UserState } from '@/redux/slices/userSlice';
+import { clearCart } from '@/redux/slices/cartSlice';
 
 interface Props {
     user: UserState;
@@ -29,9 +30,11 @@ function UserDropdown({ user }: Props) {
         setLoading(true);
         await logoutUser();
         dispatch(clearUser());
+        dispatch(clearCart());
         localStorage.removeItem('access_token');
         setLoading(false);
         navigate(config.routes.home);
+        window.location.reload();
     };
 
     return (

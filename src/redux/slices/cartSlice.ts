@@ -78,6 +78,7 @@ export const cartSlice = createSlice({
         },
         clearCart: (state) => {
             state.cartItem = [];
+            state.checkedIds = [];
         },
     },
 });
