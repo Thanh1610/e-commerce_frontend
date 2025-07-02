@@ -1,4 +1,5 @@
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -7,9 +8,10 @@ type Props = {
 
 function MainLayout({ children }: Props) {
     return (
-        <div className="bg-[#f2f4f7]">
+        <div className="flex min-h-screen flex-col bg-[#f2f4f7]">
             <Header />
-            {children}
+            <div className="flex-1">{children}</div>
+            <Footer />
         </div>
     );
 }
