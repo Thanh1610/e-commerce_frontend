@@ -3,15 +3,18 @@ import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
 import AdminUser from '@/components/AdminUser/AdminUser';
 import AdminProduct from '@/components/AdminProduct/AdminProduct';
+import AdminOrder from '@/components/AdminOrder/AdminOrder';
 
 const menuItems = [
     { key: 'user', label: 'Người dùng' },
     { key: 'product', label: 'Sản phẩm' },
+    { key: 'order', label: 'Đơn hàng' },
 ];
 
 const pages: Record<string, React.JSX.Element> = {
     user: <AdminUser />,
     product: <AdminProduct />,
+    order: <AdminOrder />,
 };
 
 const renderPage = (key: string) => pages[key] || <AdminUser />;

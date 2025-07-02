@@ -11,20 +11,20 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useState } from 'react';
-import { deleteManyUser } from '@/services/userApi';
-import { toast } from 'react-toastify';
-import { deleteManyProduct } from '@/services/productApi';
-import { useProductContext } from '@/contexts/ProductContext';
+import { useOrderContext } from '@/contexts/OrderContext';
 import { useMutation } from '@tanstack/react-query';
 import LoadingButton from '@/components/LoadingButton/LoadingButton';
+import { toast } from 'react-toastify';
+import { deleteManyOrder } from '@/services/cartApi';
 
-interface DeleteSelectedButtonProps<TData> {
+interface DeleteSelectedOrderButtonProps<TData> {
     table: Table<TData>;
-    type: 'product' | 'user';
+    onResetSelection: () => void;
 }
-function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<TData>) {
+function DataTableDeleteOrderModal<TData>({ table, onResetSelection }: DeleteSelectedOrderButtonProps<TData>) {
     const [open, setOpen] = useState<boolean>(false);
-    // const { refreshProducts } = useProductContext();
+    const orderContext = useOrderContext();
+    const refreshOrders = orderContext?.refreshOrders;
 
     const handleClick = async () => {
         const selectedIds = table.getFilteredSelectedRowModel().rows.map((row) => (row.original as any)._id);
@@ -32,23 +32,16 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
     };
 
     const deleteManyMutation = useMutation({
-        mutationFn: async (selectedIds: string[]) => {
-            if (type === 'user') return await deleteManyUser(selectedIds);
-            if (type === 'product') return await deleteManyProduct(selectedIds);
-            throw new Error('Unknown delete type');
-        },
+        mutationFn: async (selectedIds: string[]) => await deleteManyOrder(selectedIds),
         onSuccess: async (res) => {
             if (res?.status === 'SUCCESS') {
-                // await refreshProducts();
-                toast.success(res?.message || 'Xóa thành công!');
+                if (refreshOrders) await refreshOrders();
+                toast.success(res?.message || 'Xóa đơn hàng thành công!');
                 setOpen(false);
+                onResetSelection();
             } else {
-                toast.error(res?.message || 'Xóa thất bại!');
+                toast.error(res?.message || 'Xóa đơn hàng thất bại!');
             }
-        },
-        onError: (error) => {
-            console.error('Delete failed:', error);
-            toast.error('Lỗi kết nối máy chủ!');
         },
     });
 
@@ -65,8 +58,8 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
                 <AlertDialogHeader>
                     <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn tài khoản hoặc sản phẩm của bạn
-                        khỏi máy chủ của chúng tôi.
+                        Không thể hoàn tác hành động này. Thao tác này sẽ xóa vĩnh viễn đơn hàng khỏi máy chủ của chúng
+                        tôi.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -86,4 +79,4 @@ function DataTableDeleteModal<TData>({ table, type }: DeleteSelectedButtonProps<
     );
 }
 
-export default DataTableDeleteModal;
+export default DataTableDeleteOrderModal;
