@@ -8,7 +8,7 @@ export function DetailsImgCarousel({ img }: Props) {
         <Carousel className="relative w-full max-w-full p-[15px]">
             <CarouselContent>
                 <div className="flex h-96 min-w-full justify-center">
-                    <img src={img} className="max-h-[400px] object-contain" />
+                    <img loading="lazy" src={img} className="max-h-[400px] object-contain" />
                 </div>
             </CarouselContent>
             {/* <CarouselPrevious className="absolute top-1/2 left-4 z-10 -translate-y-1/2" />

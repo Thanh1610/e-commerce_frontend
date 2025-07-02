@@ -48,7 +48,7 @@ function UserDropdown({ user }: Props) {
                 ) : (
                     <Button variant="outline" className="cursor-pointer">
                         {user?.avatar ? (
-                            <img src={user?.avatar} alt="avatar" className="h-6 w-6 rounded-full" />
+                            <img loading="lazy" src={user?.avatar} alt="avatar" className="h-6 w-6 rounded-full" />
                         ) : (
                             <User />
                         )}{' '}

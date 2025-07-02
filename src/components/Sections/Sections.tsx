@@ -6,21 +6,35 @@ import type { ProductFormData } from '@/types/product';
 type SectionsProps = {
     heading?: string;
     products: ProductFormData[];
+    onShowMore?: () => void;
+    showMoreDisabled?: boolean;
+    children?: React.ReactNode;
 };
 
-function Sections({ heading, products }: SectionsProps) {
+function Sections({ heading, products, onShowMore, showMoreDisabled, children }: SectionsProps) {
     return (
         <div className="mt-5 rounded-2xl bg-white">
             {heading && <h3 className="px-5 pt-5 text-2xl font-bold">{heading}</h3>}
-
-            <CardList colSpan="2" products={products} />
-
-            <div className="mt-[5px] mb-[15px] flex items-center justify-center">
-                <Button variant="ghost" className="flex items-center justify-center">
-                    <span>Xem thêm</span>
-                    <ChevronDown />
-                </Button>
-            </div>
+            {children ? (
+                children
+            ) : products.length === 0 ? (
+                <div className="p-8 text-center text-gray-500">Không có sản phẩm phù hợp.</div>
+            ) : (
+                <CardList products={products} />
+            )}
+            {onShowMore && (
+                <div className="mt-[5px] mb-[15px] flex items-center justify-center">
+                    <Button
+                        onClick={onShowMore}
+                        variant="ghost"
+                        disabled={showMoreDisabled}
+                        className="flex items-center justify-center"
+                    >
+                        <span>Xem thêm</span>
+                        <ChevronDown />
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }

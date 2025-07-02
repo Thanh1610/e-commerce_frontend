@@ -32,7 +32,12 @@ export const columns: ColumnDef<ProductFormData>[] = [
             const image = row.getValue('image') as string;
             return (
                 <div className="h-10 w-10">
-                    <img src={image} alt={row.getValue('name')} className="h-full w-full rounded-md object-cover" />
+                    <img
+                        loading="lazy"
+                        src={image}
+                        alt={row.getValue('name')}
+                        className="h-full w-full rounded-md object-cover"
+                    />
                 </div>
             );
         },

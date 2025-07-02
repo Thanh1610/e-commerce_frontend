@@ -54,6 +54,7 @@ function CartItem({ cartItem, checked, onCheckedChange }: CartItemProps) {
                             onClick={handleNavigate}
                             src={cartItem.image}
                             alt={cartItem.name}
+                            loading="lazy"
                             className="h-16 w-16 rounded border object-cover select-none"
                         />
                         <p onClick={handleNavigate} className="text-sm font-medium hover:underline">

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card as CardUi, CardContent } from '@/components/ui/card';
 import config from '@/config';
 import { Star, Flame } from 'lucide-react';
@@ -8,7 +9,7 @@ type CardProps = {
     product: ProductFormData;
 };
 
-function Card({ product }: CardProps) {
+const Card = React.memo(function Card({ product }: CardProps) {
     const navigate = useNavigate();
     const handleCardClick = () => {
         navigate(config.routes.details.replace(':id', product?._id || ''));
@@ -19,6 +20,7 @@ function Card({ product }: CardProps) {
                 <img
                     src={product?.image}
                     alt=""
+                    loading="lazy"
                     className="aspect-[4/5] w-full object-contain transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                 />
                 <h3 className="mt-1 line-clamp-2 text-sm font-medium hover:underline">{product?.name}</h3>
@@ -58,6 +60,6 @@ function Card({ product }: CardProps) {
             </CardContent>
         </CardUi>
     );
-}
+});
 
 export default Card;

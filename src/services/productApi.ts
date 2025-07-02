@@ -9,8 +9,8 @@ import type {
     SearchProduct,
 } from '@/types/product';
 
-const getAllProduct = async () => {
-    const URL_API = '/product/products';
+const getAllProduct = async (limit = 12) => {
+    const URL_API = `/product/products?limit=${limit}`;
     return await axios.get(URL_API);
 };
 
@@ -70,6 +70,15 @@ const getAllType = async () => {
     const URL_API = '/product/get-all-type';
     return await axios.get(URL_API);
 };
+
+const getSaleProducts = async (limit = 6) => {
+    return await axios.get(`/product/products?isSale=true&limit=${limit}`);
+};
+
+const getTopRatedProducts = async (limit = 6) => {
+    return await axios.get(`/product/products?ratingGte=4.5&sort=rating&order=desc&limit=${limit}`);
+};
+
 export {
     getAllProduct,
     createProduct,
@@ -81,4 +90,6 @@ export {
     getAllType,
     getProductType,
     getDetailProduct,
+    getSaleProducts,
+    getTopRatedProducts,
 };

@@ -41,6 +41,7 @@ export const columns: ColumnDef<User>[] = [
                         src={
                             avatar || 'https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-15.jpg'
                         }
+                        loading="lazy"
                         alt={row.getValue('name')}
                         className="h-full w-full rounded-md object-cover"
                     />

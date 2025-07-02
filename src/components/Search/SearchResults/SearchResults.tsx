@@ -20,7 +20,12 @@ function SearchResults({ showResults, results }: SearchResultsProps) {
                             className="flex transform items-center gap-3 p-2 transition-all duration-150 hover:bg-neutral-200"
                             onMouseDown={(e) => e.preventDefault()}
                         >
-                            <img src={item.image} className="h-10 w-10 rounded object-cover" alt={item.name} />
+                            <img
+                                loading="lazy"
+                                src={item.image}
+                                className="h-10 w-10 rounded object-cover"
+                                alt={item.name}
+                            />
                             <div>
                                 <p className="font-semibold">{item.name}</p>
                                 <p className="text-sm text-gray-500">
