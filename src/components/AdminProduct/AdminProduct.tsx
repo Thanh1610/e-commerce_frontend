@@ -14,7 +14,7 @@ export default function AdminProduct() {
         refetch,
     } = useQuery({
         queryKey: ['product'],
-        queryFn: getAllProduct,
+        queryFn: () => getAllProduct(),
     });
 
     const data: ProductFormData[] = res?.data || [];

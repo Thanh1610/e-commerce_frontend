@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import DetailActions from '@/components/DetailActions/DetailActions';
 import DetailsImgCarousel from '@/components/DetailsImgCarousel/DetailsImgCarousel';
 import { useQuery } from '@tanstack/react-query';
+import Loading from '@/components/Loading/Loading';
 
 function DetailsPage() {
     const { id } = useParams();
@@ -16,6 +17,10 @@ function DetailsPage() {
     });
 
     const product: ProductFormData | undefined = query.data?.data;
+
+    if (query.isLoading) {
+        return <Loading />;
+    }
 
     return (
         <div className="container mx-auto max-w-screen-lg px-4 py-6">

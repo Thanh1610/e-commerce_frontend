@@ -9,7 +9,7 @@ import type {
     SearchProduct,
 } from '@/types/product';
 
-const getAllProduct = async (limit = 12) => {
+const getAllProduct = async (limit?: number) => {
     const URL_API = `/product/products?limit=${limit}`;
     return await axios.get(URL_API);
 };

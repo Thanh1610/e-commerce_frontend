@@ -6,6 +6,7 @@ import TypeSections from '@/components/TypeSection/TypeSection';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useQuery } from '@tanstack/react-query';
+import Loading from '@/components/Loading/Loading';
 
 function TypePage() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -38,7 +39,7 @@ function TypePage() {
         updateURLParams(sort, order, limitValue);
     };
 
-    const { data: products = [] } = useQuery({
+    const { data: products = [], isLoading } = useQuery({
         queryKey: ['products', type, sort, order, limit],
         queryFn: async () => {
             if (!type) return [];
@@ -53,6 +54,8 @@ function TypePage() {
         const [sortValue, orderValue] = value.split(':');
         handleSortChange(sortValue, orderValue as 'asc' | 'desc');
     };
+
+    if (isLoading) return <Loading />;
 
     return (
         <div className="container mx-auto my-0 max-w-screen-lg">

@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteOrder, type Order } from '@/services/cartApi';
+import { deleteOrder } from '@/services/cartApi';
+import type { Order } from '@/types/cart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
@@ -54,7 +55,7 @@ function OrderCard({ order, refetch }: Props) {
 
     return (
         <Card key={order._id}>
-            <CardContent className="space-y-4 p-6">
+            <CardContent className="space-y-4 p-3 sm:p-6">
                 <div className="flex flex-wrap justify-between text-sm text-gray-600">
                     <span className="font-medium text-gray-800">🧾 Mã đơn: {order._id}</span>
                     <span className="italic">{new Date(order.createdAt).toLocaleString()}</span>
@@ -98,7 +99,7 @@ function OrderCard({ order, refetch }: Props) {
                 <div>
                     <p className="mb-2 text-sm font-semibold text-gray-800">📦 Sản phẩm:</p>
                     <ul className="space-y-1 text-sm text-gray-700">
-                        {order.cartItem.map((item) => (
+                        {order.cartItem.map((item: any) => (
                             <li key={item.product} className="flex justify-between">
                                 <Button
                                     onClick={() => navigate(config.routes.details.replace(':id', item.product))}
@@ -107,7 +108,7 @@ function OrderCard({ order, refetch }: Props) {
                                 >
                                     {item.name} × {item.amount}
                                 </Button>
-                                <span>{item.price.toLocaleString('vi-VN')}đ</span>
+                                <span className="flex items-center">{item.price.toLocaleString('vi-VN')}đ</span>
                             </li>
                         ))}
                     </ul>

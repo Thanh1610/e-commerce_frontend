@@ -8,7 +8,7 @@ const MobileSearchBar = () => (
         <div className="mx-2 flex flex-1 items-center">
             <Search />
         </div>
-        <CartBtn className="cursor-pointer" />
+        <CartBtn className="relative cursor-pointer" />
     </div>
 );
 

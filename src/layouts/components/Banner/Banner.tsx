@@ -51,7 +51,13 @@ function Banner({ bannerImg }: BannerProps) {
         <div className="relative mt-5 overflow-hidden rounded-2xl">
             <Slider {...settings}>
                 {bannerImg.map((img) => (
-                    <img loading="lazy" key={img} src={img} alt="banner" className="h-60 w-full object-cover" />
+                    <img
+                        loading="lazy"
+                        key={img}
+                        src={img}
+                        alt="banner"
+                        className="xs:h-40 h-32 w-full object-cover sm:h-52 md:h-60 lg:h-72"
+                    />
                 ))}
             </Slider>
         </div>

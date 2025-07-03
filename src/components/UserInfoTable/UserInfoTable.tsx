@@ -69,7 +69,7 @@ function UserInfoTable() {
     }, [user, reset]);
 
     return (
-        <div className="mx-auto mt-5 w-xl">
+        <div className="mx-auto mt-5 w-full max-w-xl px-2">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center gap-2">
                 <UserUpdateField register={register} errors={errors} />
                 <div className="mt-5 flex items-center justify-center">

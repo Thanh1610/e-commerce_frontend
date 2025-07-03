@@ -3,7 +3,6 @@ import { lazy } from 'react';
 
 export const routes = [
     { path: config.routes.home, component: lazy(() => import('@/pages/Home/HomePage')) },
-    { path: config.routes.products, component: lazy(() => import('@/pages/Products/ProductsPage')) },
     {
         path: config.routes.login,
         component: lazy(() => import('@/pages/Login/LoginPage')),
@@ -29,6 +28,7 @@ export const routes = [
     {
         path: config.routes.admin,
         component: lazy(() => import('@/pages/Admin/AdminPage')),
+        layout: lazy(() => import('@/pages/Admin/AdminPage')),
         isPrivate: true,
     },
 ];
