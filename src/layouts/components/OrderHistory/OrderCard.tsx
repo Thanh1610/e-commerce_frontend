@@ -100,15 +100,17 @@ function OrderCard({ order, refetch }: Props) {
                     <p className="mb-2 text-sm font-semibold text-gray-800">📦 Sản phẩm:</p>
                     <ul className="space-y-1 text-sm text-gray-700">
                         {order.cartItem.map((item: any) => (
-                            <li key={item.product} className="flex justify-between">
+                            <li key={item.product} className="flex flex-col items-start sm:flex-row sm:justify-between">
                                 <Button
                                     onClick={() => navigate(config.routes.details.replace(':id', item.product))}
                                     variant="link"
-                                    className="text-sm italic"
+                                    className="text-left text-sm break-words whitespace-normal italic"
                                 >
                                     {item.name} × {item.amount}
                                 </Button>
-                                <span className="flex items-center">{item.price.toLocaleString('vi-VN')}đ</span>
+                                <span className="hidden items-center sm:flex">
+                                    {item.price.toLocaleString('vi-VN')}đ
+                                </span>
                             </li>
                         ))}
                     </ul>

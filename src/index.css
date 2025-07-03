@@ -166,7 +166,7 @@ body {
 @media (max-width: 640px) {
     html,
     body {
-        /* Vẫn cho cuộn, chỉ ẩn thanh cuộn */
+        overflow-x: hidden;
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }

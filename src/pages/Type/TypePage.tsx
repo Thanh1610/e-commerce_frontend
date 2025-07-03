@@ -60,7 +60,7 @@ function TypePage() {
     return (
         <div className="container mx-auto my-0 max-w-screen-lg">
             <div className="mt-5 flex items-center gap-4">
-                <div>Sắp xếp theo: </div>
+                <div className="hidden sm:flex">Sắp xếp theo: </div>
                 <div className="flex items-center gap-2">
                     <Button
                         onClick={() => handleSortChange('createdAt', 'desc')}

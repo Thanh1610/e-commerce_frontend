@@ -5,8 +5,9 @@ import { searchProduct } from '@/services/productApi';
 import type { ProductFormData } from '@/types/product';
 import SearchResults from '@/layouts/components/Search/SearchResults';
 import useDebounce from '@/hooks/useDebounce';
+import clsx from 'clsx';
 
-function Search() {
+function Search({ className = '' }: { className?: string }) {
     const [searchValue, setSearchValue] = useState<string>('');
     const [showResults, setShowResults] = useState<boolean>(false);
     const [results, setResults] = useState<ProductFormData[]>([]);
@@ -60,7 +61,7 @@ function Search() {
         inputRef.current?.focus();
     };
     return (
-        <div ref={wrapperRef} className="relative flex w-full min-w-xs items-center gap-2">
+        <div ref={wrapperRef} className={clsx('relative flex w-full items-center gap-2', className)}>
             <Input
                 className="w-full bg-white pr-12 pl-10"
                 ref={inputRef}

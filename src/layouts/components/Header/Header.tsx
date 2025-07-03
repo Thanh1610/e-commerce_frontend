@@ -17,7 +17,7 @@ function Header() {
 
                 {/* search */}
                 <div className="hidden items-center justify-center md:flex">
-                    <Search />
+                    <Search className="min-w-sm" />
                 </div>
 
                 {/* actions */}
