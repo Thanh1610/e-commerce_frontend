@@ -31,7 +31,7 @@ function ProductCategory() {
 
     const matchedKeywords = keywords.filter((k) => types.includes(k.value));
     return (
-        <div className="container mx-auto my-0 flex w-full max-w-screen-lg items-center justify-center">
+        <>
             {matchedKeywords.map((item) => (
                 <Button
                     onClick={() => navigate(config.routes.type.replace(':type', item?.value))}
@@ -43,7 +43,7 @@ function ProductCategory() {
                     {item.label}
                 </Button>
             ))}
-        </div>
+        </>
     );
 }
 

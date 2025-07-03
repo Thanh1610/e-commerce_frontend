@@ -162,3 +162,16 @@ body {
     scrollbar-color: #e5e7eb transparent;
     scroll-behavior: smooth;
 }
+
+@media (max-width: 640px) {
+    html,
+    body {
+        /* Vẫn cho cuộn, chỉ ẩn thanh cuộn */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+}

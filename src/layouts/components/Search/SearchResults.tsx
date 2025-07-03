@@ -15,7 +15,7 @@ function SearchResults({ showResults, results }: SearchResultsProps) {
                     <h3 className="p-2 text-xl font-bold">Kết quả tìm kiếm</h3>
                     {results.map((item) => (
                         <Link
-                            to={config.routes.details.replace(':slug', item?.slug || '')}
+                            to={config.routes.details.replace(':id', item?._id || '')}
                             key={item._id}
                             className="flex transform items-center gap-3 p-2 transition-all duration-150 hover:bg-neutral-200"
                             onMouseDown={(e) => e.preventDefault()}

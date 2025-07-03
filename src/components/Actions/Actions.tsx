@@ -1,47 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { User, ShoppingCart } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Link, useNavigate } from 'react-router';
-import config from '@/config';
-import UserDropdown from '@/components/Actions/UserDropdown/UserDropdown';
-import { Badge } from '@/components/ui/badge';
-
+import { User } from 'lucide-react';
+import { Link } from 'react-router';
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
+
+import { Button } from '@/components/ui/button';
+import UserDropdown from '@/components/Actions/UserDropdown/UserDropdown';
+import config from '@/config';
+import CartBtn from '@/components/CartBtn/CartBtn';
+
 function Actions() {
     const user = useSelector((state: RootState) => state.user);
-    const cartItems = useSelector((state: RootState) => state.cart.cartItem);
-    const itemCount = cartItems.length;
-    const navigate = useNavigate();
-
-    const handleClick = () => {
-        if (!user?._id) {
-            navigate(config.routes.login, { state: location?.pathname });
-            return;
-        }
-        navigate(config.routes.cart);
-    };
 
     return (
-        <div className="col-span-3 flex items-center justify-end gap-2">
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <Button variant="outline" onClick={handleClick} className="relative">
-                        <ShoppingCart />
-                        {itemCount > 0 && (
-                            <Badge
-                                className="absolute -top-1 -right-1 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-                                variant="destructive"
-                            >
-                                {itemCount}
-                            </Badge>
-                        )}
-                    </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>Giỏ hàng</p>
-                </TooltipContent>
-            </Tooltip>
+        <>
+            <CartBtn className="relative hidden cursor-pointer md:flex" />
 
             {user?.name ? (
                 <UserDropdown user={user} />
@@ -52,7 +24,7 @@ function Actions() {
                     </Button>
                 </Link>
             )}
-        </div>
+        </>
     );
 }
 

@@ -14,7 +14,7 @@ function TypeSections({ heading, products, setLimit }: TypeSectionsProps) {
         <div className="mt-5 rounded-2xl bg-white">
             {heading && <h3 className="px-5 pt-5 text-2xl font-bold">{heading}</h3>}
 
-            <CardList colSpan="2" products={products} />
+            <CardList products={products} />
 
             {products.length > 24 && (
                 <div className="mt-[5px] mb-[15px] flex items-center justify-center">

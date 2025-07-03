@@ -7,7 +7,7 @@ function Footer() {
             <div className="mx-auto grid max-w-screen-lg grid-cols-1 gap-8 px-4 py-10 md:grid-cols-4">
                 {/* Logo & Slogan */}
                 <div>
-                    <Link to="/" className="text-2xl font-bold text-white">
+                    <Link to="/" className="mb-2 inline-block text-xl font-bold tracking-wide text-white">
                         SyberShop
                     </Link>
                     <p className="mt-2 text-sm text-neutral-400">

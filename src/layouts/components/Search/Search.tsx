@@ -3,7 +3,7 @@ import { Search as SreachBtn, Loader, X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { searchProduct } from '@/services/productApi';
 import type { ProductFormData } from '@/types/product';
-import SearchResults from '@/components/Search/SearchResults/SearchResults';
+import SearchResults from '@/layouts/components/Search/SearchResults';
 import useDebounce from '@/hooks/useDebounce';
 
 function Search() {
@@ -60,35 +60,33 @@ function Search() {
         inputRef.current?.focus();
     };
     return (
-        <div className="col-span-6 flex items-center justify-center">
-            <div ref={wrapperRef} className="relative flex w-full max-w-sm items-center gap-2">
-                <Input
-                    className="w-full bg-white pr-12 pl-10"
-                    ref={inputRef}
-                    type="text"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    value={searchValue}
-                    onFocus={() => {
-                        if (results.length > 0) {
-                            setShowResults(true);
-                        }
-                    }}
-                />
+        <div ref={wrapperRef} className="relative flex w-full min-w-xs items-center gap-2">
+            <Input
+                className="w-full bg-white pr-12 pl-10"
+                ref={inputRef}
+                type="text"
+                placeholder="Search..."
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
+                onFocus={() => {
+                    if (results.length > 0) {
+                        setShowResults(true);
+                    }
+                }}
+            />
 
-                <div
-                    onClick={handleClear}
-                    className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer px-1 text-2xl"
-                >
-                    {searchValue && (loading ? <Loader size={16} className="animate-spin" /> : <X size={16} />)}
-                </div>
-
-                <div className="absolute top-0 left-4 flex h-full items-center">
-                    <SreachBtn size={16} />
-                </div>
-
-                <SearchResults showResults={showResults} results={results} />
+            <div
+                onClick={handleClear}
+                className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer px-1 text-2xl"
+            >
+                {searchValue && (loading ? <Loader size={16} className="animate-spin" /> : <X size={16} />)}
             </div>
+
+            <div className="absolute top-0 left-4 flex h-full items-center">
+                <SreachBtn size={16} />
+            </div>
+
+            <SearchResults showResults={showResults} results={results} />
         </div>
     );
 }
