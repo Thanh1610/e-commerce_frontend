@@ -46,7 +46,7 @@ const updateUser = async (data: UpdateUser): Promise<UserResponse> => {
 
 const getAllUser = async () => {
     const URL_API = '/user/users';
-    return await axiosCustom.get(URL_API);
+    return await axiosJwt.get(URL_API);
 };
 
 const deleteUser = async ({ _id }: DeleteUser): Promise<UserResponse> => {
