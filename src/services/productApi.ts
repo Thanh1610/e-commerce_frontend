@@ -1,5 +1,4 @@
 import axios from '@/utils/axios.customzie';
-import axiosJwt from '@/utils/axiosJwt';
 import type {
     ProductFormData,
     GetProductTypeProps,
@@ -12,7 +11,7 @@ import type {
 
 const getAllProduct = async (limit?: number) => {
     const URL_API = `/product/products?limit=${limit}`;
-    return await axiosJwt.get(URL_API);
+    return await axios.get(URL_API);
 };
 
 const getProductType = async (data: GetProductTypeProps) => {
